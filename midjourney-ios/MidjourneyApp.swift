@@ -11,7 +11,10 @@ import SwiftUI
 struct MidjourneyApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            SignedInView(
+                client: .init(cookie: ""),
+                userId: ""
+            )
         }
     }
 }
