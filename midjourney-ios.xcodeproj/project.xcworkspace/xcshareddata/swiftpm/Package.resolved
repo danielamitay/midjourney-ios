@@ -1,0 +1,32 @@
+{
+  "pins" : [
+    {
+      "identity" : "alamofire",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Alamofire/Alamofire.git",
+      "state" : {
+        "revision" : "3dc6a42c7727c49bf26508e29b0a0b35f9c7e1ad",
+        "version" : "5.8.1"
+      }
+    },
+    {
+      "identity" : "kingfisher",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/onevcat/Kingfisher.git",
+      "state" : {
+        "revision" : "add0a87ec4e31e2ca2a0b2085f0559201e4f5918",
+        "version" : "7.10.1"
+      }
+    },
+    {
+      "identity" : "midjourney-swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/danielamitay/midjourney-swift",
+      "state" : {
+        "branch" : "main",
+        "revision" : "49c3bbf358890e04f65d04cd57f10c99340dc10f"
+      }
+    }
+  ],
+  "version" : 2
+}

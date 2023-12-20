@@ -11,6 +11,8 @@
 		6394EAC52B337A04001B4EC3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6394EAC42B337A04001B4EC3 /* ContentView.swift */; };
 		6394EAC72B337A05001B4EC3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6394EAC62B337A05001B4EC3 /* Assets.xcassets */; };
 		6394EACA2B337A05001B4EC3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6394EAC92B337A05001B4EC3 /* Preview Assets.xcassets */; };
+		6394EAD22B337B3C001B4EC3 /* Midjourney in Frameworks */ = {isa = PBXBuildFile; productRef = 6394EAD12B337B3C001B4EC3 /* Midjourney */; };
+		6394EAD52B337B4D001B4EC3 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 6394EAD42B337B4D001B4EC3 /* Kingfisher */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +28,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6394EAD52B337B4D001B4EC3 /* Kingfisher in Frameworks */,
+				6394EAD22B337B3C001B4EC3 /* Midjourney in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,6 +87,10 @@
 			dependencies = (
 			);
 			name = "midjourney-ios";
+			packageProductDependencies = (
+				6394EAD12B337B3C001B4EC3 /* Midjourney */,
+				6394EAD42B337B4D001B4EC3 /* Kingfisher */,
+			);
 			productName = "midjourney-ios";
 			productReference = 6394EABF2B337A04001B4EC3 /* midjourney-ios.app */;
 			productType = "com.apple.product-type.application";
@@ -111,6 +119,10 @@
 				Base,
 			);
 			mainGroup = 6394EAB62B337A04001B4EC3;
+			packageReferences = (
+				6394EAD02B337B3C001B4EC3 /* XCRemoteSwiftPackageReference "midjourney-swift" */,
+				6394EAD32B337B4D001B4EC3 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+			);
 			productRefGroup = 6394EAC02B337A04001B4EC3 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -354,6 +366,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		6394EAD02B337B3C001B4EC3 /* XCRemoteSwiftPackageReference "midjourney-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/danielamitay/midjourney-swift";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+		6394EAD32B337B4D001B4EC3 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.10.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		6394EAD12B337B3C001B4EC3 /* Midjourney */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6394EAD02B337B3C001B4EC3 /* XCRemoteSwiftPackageReference "midjourney-swift" */;
+			productName = Midjourney;
+		};
+		6394EAD42B337B4D001B4EC3 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6394EAD32B337B4D001B4EC3 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 6394EAB72B337A04001B4EC3 /* Project object */;
 }
