@@ -27,9 +27,7 @@ struct SignedInView: View {
             Color.background
                 .ignoresSafeArea()
 
-            Color.gray
-                .opacity(0.25)
-                .ignoresSafeArea()
+            RecentJobsView(client: client)
                 .opacity(selectedTab == .explore ? 1.0 : 0.0)
 
             MyJobsView(client: client, userId: userId)
