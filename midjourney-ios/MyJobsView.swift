@@ -31,23 +31,34 @@ struct MyJobsView: View {
             .padding(.horizontal, 27)
             .frame(height: 60)
 
-            LazyVGrid(columns: columns, spacing: gridPadding) {
-                ForEach(myJobs) { job in
-                    Color.loading
-                        .aspectRatio(1, contentMode: .fit)
-                        .overlay {
-                            KFImage.url(job.imageUrl)
-                                .resizable()
-                                .loadDiskFileSynchronously()
-                                .fade(duration: 0.25)
-                                .aspectRatio(contentMode: .fill)
-                                .clipped()
-                                .disabled(true)
+            VStack {
+                if myJobs.isEmpty {
+                    LazyVGrid(columns: columns, spacing: gridPadding) {
+                        ForEach(0..<100) { _ in
+                            Color.loading
+                                .aspectRatio(1, contentMode: .fit)
                         }
+                        .clipShape(
+                            RoundedRectangle(cornerRadius: gridCorners)
+                        )
+                    }
                 }
-                .clipShape(
-                    RoundedRectangle(cornerRadius: gridCorners)
-                )
+                LazyVGrid(columns: columns, spacing: gridPadding) {
+                    ForEach(myJobs) { job in
+                        Color.loading
+                            .aspectRatio(1, contentMode: .fit)
+                            .overlay {
+                                KFImage.url(job.imageUrl)
+                                    .resizable()
+                                    .loadDiskFileSynchronously()
+                                    .fade(duration: 0.25)
+                                    .aspectRatio(contentMode: .fill)
+                            }
+                    }
+                    .clipShape(
+                        RoundedRectangle(cornerRadius: gridCorners)
+                    )
+                }
             }
             .clipShape(
                 RoundedRectangle(cornerRadius: 12)
@@ -56,7 +67,9 @@ struct MyJobsView: View {
         }
         .onAppear {
             client.myJobs(userId: userId) { result in
-                self.onResult(result)
+                withAnimation {
+                    self.onResult(result)
+                }
             }
         }
     }

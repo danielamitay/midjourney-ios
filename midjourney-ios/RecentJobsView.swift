@@ -39,24 +39,36 @@ struct RecentJobsView: View {
             .padding(.horizontal, 27)
             .frame(height: 60)
 
-            HStack(alignment: .top, spacing: gridPadding) {
-                ForEach(recentJobColumns) { column in
-                    LazyVStack(spacing: gridPadding, content: {
-                        ForEach(column.jobs) { job in
-                            let aspectRatio = (CGFloat(job.width) / CGFloat(job.height))
-                            Color.loading
-                                .aspectRatio(aspectRatio, contentMode: .fit)
-                                .overlay {
-                                    KFImage.url(job.imageUrl)
-                                        .resizable()
-                                        .loadDiskFileSynchronously()
-                                        .fade(duration: 0.25)
-                                        .aspectRatio(aspectRatio, contentMode: .fill)
-                                        .clipped()
-                                        .disabled(true)
+            VStack {
+                if recentJobColumns.isEmpty {
+                    HStack(alignment: .top, spacing: gridPadding) {
+                        ForEach(0..<gridCount, id: \.self) { column in
+                            LazyVStack(spacing: gridPadding, content: {
+                                ForEach(0..<25, id: \.self) { _ in
+                                    let aspectRatio = Double.random(in: 0.5...1.5)
+                                    Color.loading
+                                        .aspectRatio(aspectRatio, contentMode: .fit)
                                 }
+                            })
                         }
-                    })
+                    }
+                }
+                HStack(alignment: .top, spacing: gridPadding) {
+                    ForEach(recentJobColumns) { column in
+                        LazyVStack(spacing: gridPadding, content: {
+                            ForEach(column.jobs) { job in
+                                let aspectRatio = (CGFloat(job.width) / CGFloat(job.height))
+                                Color.loading
+                                    .aspectRatio(aspectRatio, contentMode: .fit)
+                                    .overlay {
+                                        KFImage.url(job.imageUrl)
+                                            .resizable()
+                                            .loadDiskFileSynchronously()
+                                            .fade(duration: 0.25)
+                                    }
+                            }
+                        })
+                    }
                 }
             }
             .clipShape(
@@ -66,7 +78,9 @@ struct RecentJobsView: View {
         }
         .onAppear {
             client.recentJobs { result in
-                onResult(result)
+                withAnimation {
+                    onResult(result)
+                }
             }
         }
     }
