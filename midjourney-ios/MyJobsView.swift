@@ -25,13 +25,15 @@ struct MyJobsView: View {
             HStack {
                 Text("Today")
                     .bold()
+                    .foregroundStyle(.standardText)
                 Spacer()
             }
             .padding(.horizontal, 27)
-            .frame(height: 70)
+            .frame(height: 60)
+
             LazyVGrid(columns: columns, spacing: gridPadding) {
                 ForEach(myJobs) { job in
-                    Color(white: 0.913)
+                    Color.loading
                         .aspectRatio(1, contentMode: .fit)
                         .overlay {
                             KFImage.url(job.imageUrl)
@@ -47,6 +49,9 @@ struct MyJobsView: View {
                     RoundedRectangle(cornerRadius: gridCorners)
                 )
             }
+            .clipShape(
+                RoundedRectangle(cornerRadius: 12)
+            )
             .padding(gridPadding)
         }
         .onAppear {
@@ -82,11 +87,9 @@ extension Midjourney.MyJob {
     }
 }
 
-/*
 #Preview {
     MyJobsView(
         client: .init(cookie: ""),
         userId: ""
     )
 }
-*/

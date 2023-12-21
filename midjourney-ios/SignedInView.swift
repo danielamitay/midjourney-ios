@@ -29,9 +29,15 @@ struct SignedInView: View {
 
             RecentJobsView(client: client)
                 .opacity(selectedTab == .explore ? 1.0 : 0.0)
+                .safeAreaPadding(.bottom, 70)
+                .offset(x: selectedTab == .explore ? 0.0 : -50)
+                .animation(.easeOut(duration: 0.2), value: selectedTab == .explore)
 
             MyJobsView(client: client, userId: userId)
                 .opacity(selectedTab == .myImages ? 1.0 : 0.0)
+                .safeAreaPadding(.bottom, 70)
+                .offset(x: selectedTab == .myImages ? 0.0 : 50)
+                .animation(.easeOut(duration: 0.2), value: selectedTab == .myImages)
 
             VStack {
                 Spacer()
