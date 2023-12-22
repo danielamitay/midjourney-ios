@@ -19,6 +19,7 @@ struct RecentJobsView: View {
     }
 
     @State var recentJobColumns: [RecentJobsColumn] = []
+    @State var selectedImage: Midjourney.Job.Image? = nil
 
     private let gridCount: Int = 2
     private let gridPadding: CGFloat = 3
@@ -61,11 +62,15 @@ struct RecentJobsView: View {
                                 Color.loading
                                     .aspectRatio(aspectRatio, contentMode: .fit)
                                     .overlay {
-                                        let imageUrl = job.images.first!.webpImageUrl(size: .medium)
+                                        let image = job.images.first!
+                                        let imageUrl = image.webpImageUrl(size: .large)
                                         KFImage.url(URL(string: imageUrl))
                                             .resizable()
                                             .loadDiskFileSynchronously()
                                             .fade(duration: 0.25)
+                                            .onTapGesture {
+                                                selectedImage = image
+                                            }
                                     }
                             }
                         })
@@ -75,7 +80,11 @@ struct RecentJobsView: View {
             .clipShape(
                 RoundedRectangle(cornerRadius: 12)
             )
+            .contentShape(Rectangle())
             .padding(gridPadding)
+        }
+        .sheet(item: $selectedImage) { image in
+            JobImageView(image: image, placeholderSize: .large)
         }
         .onAppear {
             client.recentJobs { result in

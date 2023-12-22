@@ -15,6 +15,7 @@ struct MyJobsView: View {
     let userId: String
 
     @State var myJobs: [Midjourney.Job] = []
+    @State var selectedImage: Midjourney.Job.Image? = nil
 
     private let gridCount: Int = 4
     private let gridPadding: CGFloat = 3
@@ -48,23 +49,31 @@ struct MyJobsView: View {
                         Color.loading
                             .aspectRatio(1, contentMode: .fit)
                             .overlay {
-                                let imageUrl = job.images.first!.webpImageUrl(size: .medium)
+                                let image = job.images.first!
+                                let imageUrl = image.webpImageUrl(size: .medium)
                                 KFImage.url(URL(string: imageUrl))
                                     .resizable()
                                     .loadDiskFileSynchronously()
                                     .fade(duration: 0.25)
                                     .aspectRatio(contentMode: .fill)
+                                    .onTapGesture {
+                                        selectedImage = image
+                                    }
                             }
                     }
                     .clipShape(
                         RoundedRectangle(cornerRadius: gridCorners)
                     )
+                    .contentShape(Rectangle())
                 }
             }
             .clipShape(
                 RoundedRectangle(cornerRadius: 12)
             )
             .padding(gridPadding)
+        }
+        .sheet(item: $selectedImage) { image in
+            JobImageView(image: image, placeholderSize: .medium)
         }
         .onAppear {
             client.userJobs(userId) { result in
