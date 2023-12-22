@@ -14,7 +14,7 @@ struct MyJobsView: View {
     let client: Midjourney
     let userId: String
 
-    @State var myJobs: [Midjourney.MyJob] = []
+    @State var myJobs: [Midjourney.Job] = []
 
     private let gridCount: Int = 4
     private let gridPadding: CGFloat = 3
@@ -48,7 +48,8 @@ struct MyJobsView: View {
                         Color.loading
                             .aspectRatio(1, contentMode: .fit)
                             .overlay {
-                                KFImage.url(job.imageUrl)
+                                let imageUrl = job.images.first!.webpImageUrl(size: .medium)
+                                KFImage.url(URL(string: imageUrl))
                                     .resizable()
                                     .loadDiskFileSynchronously()
                                     .fade(duration: 0.25)
@@ -66,7 +67,7 @@ struct MyJobsView: View {
             .padding(gridPadding)
         }
         .onAppear {
-            client.myJobs(userId: userId) { result in
+            client.userJobs(userId) { result in
                 withAnimation {
                     self.onResult(result)
                 }
@@ -74,7 +75,7 @@ struct MyJobsView: View {
         }
     }
 
-    func onResult(_ result: Result<[Midjourney.MyJob], Error>) {
+    func onResult(_ result: Result<[Midjourney.Job], Error>) {
         switch result {
         case .success(let success):
             myJobs = success
@@ -91,12 +92,6 @@ extension MyJobsView {
             returnValue.append(.init(.flexible(), spacing: gridPadding))
         }
         return returnValue
-    }
-}
-
-extension Midjourney.MyJob {
-    var imageUrl: URL {
-        return URL(string: "https://cdn.midjourney.com/\(id)/0_0_384_N.webp?method=shortest&qst=6&quality=50")!
     }
 }
 

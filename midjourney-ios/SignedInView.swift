@@ -20,7 +20,6 @@ struct SignedInView: View {
     }
 
     @State var selectedTab: Tab = .explore
-    @State var myJobs: [Midjourney.MyJob] = []
 
     var body: some View {
         ZStack {

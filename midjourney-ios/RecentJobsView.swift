@@ -15,7 +15,7 @@ struct RecentJobsView: View {
 
     struct RecentJobsColumn: Identifiable {
         let id: String = UUID().uuidString
-        let jobs: [Midjourney.RecentJob]
+        let jobs: [Midjourney.Job]
     }
 
     @State var recentJobColumns: [RecentJobsColumn] = []
@@ -61,7 +61,8 @@ struct RecentJobsView: View {
                                 Color.loading
                                     .aspectRatio(aspectRatio, contentMode: .fit)
                                     .overlay {
-                                        KFImage.url(job.imageUrl)
+                                        let imageUrl = job.images.first!.webpImageUrl(size: .medium)
+                                        KFImage.url(URL(string: imageUrl))
                                             .resizable()
                                             .loadDiskFileSynchronously()
                                             .fade(duration: 0.25)
@@ -85,10 +86,10 @@ struct RecentJobsView: View {
         }
     }
 
-    func onResult(_ result: Result<[Midjourney.RecentJob], Error>) {
+    func onResult(_ result: Result<[Midjourney.Job], Error>) {
         switch result {
         case .success(let jobs):
-            var distributedArrays = Array(repeating: [Midjourney.RecentJob](), count: gridCount)
+            var distributedArrays = Array(repeating: [Midjourney.Job](), count: gridCount)
             var heights = Array(repeating: CGFloat(0), count: gridCount)
 
             for job in jobs {
@@ -118,10 +119,5 @@ extension RecentJobsView {
     }
 }
 
-extension Midjourney.RecentJob {
-    var imageUrl: URL {
-        return URL(string: "https://cdn.midjourney.com/\(parent_id)/0_\(parent_grid)_384_N.webp?method=shortest&qst=6&quality=50")!
-    }
-}
 
 }
