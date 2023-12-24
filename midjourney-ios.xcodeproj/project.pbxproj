@@ -42,6 +42,33 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		636587322B38A49A00CC5D5E /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				6394EAD82B3394FB001B4EC3 /* SignedInView.swift */,
+				6394EADA2B339C91001B4EC3 /* MyJobsView.swift */,
+				6394EADC2B33E984001B4EC3 /* RecentJobsView.swift */,
+			);
+			path = Scenes;
+			sourceTree = "<group>";
+		};
+		636587332B38A4AD00CC5D5E /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				636587302B3634DD00CC5D5E /* JobImageView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		636587342B38A4BE00CC5D5E /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				6394EAC62B337A05001B4EC3 /* Assets.xcassets */,
+				6394EAC82B337A05001B4EC3 /* Preview Content */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		6394EAB62B337A04001B4EC3 = {
 			isa = PBXGroup;
 			children = (
@@ -61,13 +88,10 @@
 		6394EAC12B337A04001B4EC3 /* midjourney-ios */ = {
 			isa = PBXGroup;
 			children = (
+				636587342B38A4BE00CC5D5E /* Resources */,
+				636587322B38A49A00CC5D5E /* Scenes */,
+				636587332B38A4AD00CC5D5E /* Views */,
 				6394EAC22B337A04001B4EC3 /* MidjourneyApp.swift */,
-				6394EAD82B3394FB001B4EC3 /* SignedInView.swift */,
-				6394EADA2B339C91001B4EC3 /* MyJobsView.swift */,
-				6394EADC2B33E984001B4EC3 /* RecentJobsView.swift */,
-				636587302B3634DD00CC5D5E /* JobImageView.swift */,
-				6394EAC62B337A05001B4EC3 /* Assets.xcassets */,
-				6394EAC82B337A05001B4EC3 /* Preview Content */,
 			);
 			path = "midjourney-ios";
 			sourceTree = "<group>";
@@ -295,7 +319,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"midjourney-ios/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"midjourney-ios/Resources/Preview Content\"";
 				DEVELOPMENT_TEAM = 4LAX75HPEJ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -329,7 +353,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"midjourney-ios/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"midjourney-ios/Resources/Preview Content\"";
 				DEVELOPMENT_TEAM = 4LAX75HPEJ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;

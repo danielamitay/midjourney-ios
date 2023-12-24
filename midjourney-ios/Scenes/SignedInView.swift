@@ -95,9 +95,18 @@ struct SignedInView: View {
     }
 }
 
+extension UserDefaults {
+    var cookie: String {
+        return self.string(forKey: "cookie") ?? ""
+    }
+    var userId: String {
+        return self.string(forKey: "userId") ?? ""
+    }
+}
+
 #Preview {
     SignedInView(
-        client: .init(cookie: ""),
-        userId: ""
+        client: .init(cookie: UserDefaults.standard.cookie),
+        userId: UserDefaults.standard.userId
     )
 }

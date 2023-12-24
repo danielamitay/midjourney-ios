@@ -128,5 +128,8 @@ extension RecentJobsView {
     }
 }
 
-
+#Preview {
+    RecentJobsView(
+        client: .init(cookie: UserDefaults.standard.cookie)
+    )
 }

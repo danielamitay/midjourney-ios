@@ -106,7 +106,7 @@ extension MyJobsView {
 
 #Preview {
     MyJobsView(
-        client: .init(cookie: ""),
-        userId: ""
+        client: .init(cookie: UserDefaults.standard.cookie),
+        userId: UserDefaults.standard.userId
     )
 }
