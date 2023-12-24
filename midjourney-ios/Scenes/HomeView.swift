@@ -1,5 +1,5 @@
 //
-//  SignedInView.swift
+//  HomeView.swift
 //  midjourney-ios
 //
 //  Created by Daniel Amitay on 12/20/23.
@@ -10,7 +10,7 @@ import SwiftUI
 import Kingfisher
 import Midjourney
 
-struct SignedInView: View {
+struct HomeView: View {
     let client: Midjourney
     let userId: String
 
@@ -105,7 +105,7 @@ extension UserDefaults {
 }
 
 #Preview {
-    SignedInView(
+    HomeView(
         client: .init(cookie: UserDefaults.standard.cookie),
         userId: UserDefaults.standard.userId
     )
