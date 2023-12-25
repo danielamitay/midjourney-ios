@@ -130,6 +130,6 @@ extension RecentJobsView {
 
 #Preview {
     RecentJobsView(
-        client: .init(cookie: UserDefaults.standard.cookie)
+        client: .init(cookie: PreviewCookie.value)
     )
 }

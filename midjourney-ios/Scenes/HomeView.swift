@@ -99,17 +99,8 @@ struct HomeView: View {
     }
 }
 
-extension UserDefaults {
-    var cookie: String {
-        return self.string(forKey: "cookie") ?? ""
-    }
-    var userId: String {
-        return self.string(forKey: "userId") ?? ""
-    }
-}
-
 #Preview {
     HomeView(
-        client: .init(cookie: UserDefaults.standard.cookie),
+        client: .init(cookie: PreviewCookie.value)
     )
 }

@@ -11,7 +11,6 @@ struct LandingView: View {
     @EnvironmentObject private var controller: SystemController
 
     @State private var cookie: String = ""
-    @State private var validCookie: Bool = false
     @FocusState private var cookieFieldIsFocused: Bool
 
     private let gridCount: Int = 2
@@ -49,7 +48,7 @@ struct LandingView: View {
                         cookie.removeLast()
                         cookieFieldIsFocused = false
                         if cookie.isValidCookieFormat {
-
+                            setCookie()
                         }
                     }
                 })
@@ -65,6 +64,12 @@ struct LandingView: View {
                 Spacer()
             }
             HStack {
+                if !PreviewCookie.value.isEmpty && !cookie.isValidCookieFormat {
+                    Button("Paste Test Cookie") {
+                        cookie = PreviewCookie.value
+                    }
+                    .foregroundStyle(.green)
+                }
                 Spacer()
                 Button(cookieButtonText) {
                     setCookie()

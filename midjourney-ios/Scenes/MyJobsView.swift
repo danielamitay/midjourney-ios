@@ -127,6 +127,6 @@ extension MyJobsView {
 
 #Preview {
     MyJobsView(
-        client: .init(cookie: UserDefaults.standard.cookie),
+        client: .init(cookie: PreviewCookie.value)
     )
 }
