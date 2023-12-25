@@ -14,6 +14,8 @@ struct HomeView: View {
     let client: Midjourney
     let userId: String
 
+    @EnvironmentObject private var controller: SystemController
+
     enum Tab {
         case explore
         case myImages
@@ -51,6 +53,9 @@ struct HomeView: View {
                                 .overlay {
                                     Image(.menuIcon)
                                         .foregroundStyle(.standardText)
+                                }
+                                .onTapGesture {
+                                    controller.clearCookie()
                                 }
                             let exploreButtonColor = selectedTab == .explore ? Color.selectedText.opacity(0.1) : Color.menu
                             let exploreTextColor = selectedTab == .explore ? Color.selectedText : Color.deselectedText

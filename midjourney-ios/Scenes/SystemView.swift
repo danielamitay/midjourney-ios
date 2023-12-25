@@ -8,15 +8,17 @@
 import SwiftUI
 
 struct SystemView: View {
-    @StateObject var controller = SystemController()
+    @StateObject private var controller = SystemController()
 
     var body: some View {
-        if let client = controller.mjClient {
-            HomeView(client: client, userId: UserDefaults.standard.userId)
-        } else {
-            Color.blue
-                .ignoresSafeArea()
+        Group {
+            if let client = controller.mjClient {
+                HomeView(client: client, userId: UserDefaults.standard.userId)
+            } else {
+                LandingView()
+            }
         }
+        .environmentObject(controller)
     }
 }
 
