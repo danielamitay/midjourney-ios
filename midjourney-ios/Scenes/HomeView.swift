@@ -12,7 +12,6 @@ import Midjourney
 
 struct HomeView: View {
     let client: Midjourney
-    let userId: String
 
     @EnvironmentObject private var controller: SystemController
 
@@ -34,7 +33,7 @@ struct HomeView: View {
                 .offset(x: selectedTab == .explore ? 0.0 : -50)
                 .animation(.easeOut(duration: 0.2), value: selectedTab == .explore)
 
-            MyJobsView(client: client, userId: userId)
+            MyJobsView(client: client)
                 .opacity(selectedTab == .myImages ? 1.0 : 0.0)
                 .safeAreaPadding(.bottom, 70)
                 .offset(x: selectedTab == .myImages ? 0.0 : 50)
@@ -112,6 +111,5 @@ extension UserDefaults {
 #Preview {
     HomeView(
         client: .init(cookie: UserDefaults.standard.cookie),
-        userId: UserDefaults.standard.userId
     )
 }

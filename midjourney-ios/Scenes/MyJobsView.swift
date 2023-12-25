@@ -12,8 +12,8 @@ import Midjourney
 
 struct MyJobsView: View {
     let client: Midjourney
-    let userId: String
 
+    @State var myUserId: String? = nil
     @State var myJobs: [Midjourney.Job] = []
     @State var selectedImage: Midjourney.Job.Image? = nil
 
@@ -76,15 +76,36 @@ struct MyJobsView: View {
             JobImageView(image: image, placeholderSize: .medium)
         }
         .onAppear {
-            client.userJobs(userId) { result in
-                withAnimation {
-                    self.onResult(result)
-                }
+            client.userInfo { result in
+                self.onUserInfoResult(result)
+            }
+        }
+        .onChange(of: myUserId) {
+            if myUserId != nil {
+                fetchJobs()
             }
         }
     }
 
-    func onResult(_ result: Result<[Midjourney.Job], Error>) {
+    func fetchJobs() {
+        guard let myUserId else { return }
+        client.userJobs(myUserId) { result in
+            withAnimation {
+                self.onJobsResult(result)
+            }
+        }
+    }
+
+    func onUserInfoResult(_ result: Result<Midjourney.UserInfo, Error>) {
+        switch result {
+        case .success(let success):
+            myUserId = success.user_id
+        case .failure(_):
+            myJobs = []
+        }
+    }
+
+    func onJobsResult(_ result: Result<[Midjourney.Job], Error>) {
         switch result {
         case .success(let success):
             myJobs = success
@@ -107,6 +128,5 @@ extension MyJobsView {
 #Preview {
     MyJobsView(
         client: .init(cookie: UserDefaults.standard.cookie),
-        userId: UserDefaults.standard.userId
     )
 }

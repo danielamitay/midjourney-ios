@@ -13,7 +13,7 @@ struct SystemView: View {
     var body: some View {
         Group {
             if let client = controller.mjClient {
-                HomeView(client: client, userId: UserDefaults.standard.userId)
+                HomeView(client: client)
             } else {
                 LandingView()
             }
