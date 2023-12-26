@@ -19,6 +19,8 @@
 		632AADED2B3A9360006A57B0 /* GridEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632AADEC2B3A9360006A57B0 /* GridEntry.swift */; };
 		632AADEF2B3A95C7006A57B0 /* GridSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632AADEE2B3A95C7006A57B0 /* GridSection.swift */; };
 		632AADF12B3B19CD006A57B0 /* GridSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632AADF02B3B19CD006A57B0 /* GridSectionHeader.swift */; };
+		632AADF32B3B255F006A57B0 /* LandingBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632AADF22B3B255F006A57B0 /* LandingBackground.swift */; };
+		632AADF52B3B33B9006A57B0 /* JobsColumn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632AADF42B3B33B9006A57B0 /* JobsColumn.swift */; };
 		636587312B3634DD00CC5D5E /* JobImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636587302B3634DD00CC5D5E /* JobImageView.swift */; };
 		636587362B38A55D00CC5D5E /* SystemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636587352B38A55D00CC5D5E /* SystemView.swift */; };
 		636587392B38A56F00CC5D5E /* SystemController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636587382B38A56F00CC5D5E /* SystemController.swift */; };
@@ -47,6 +49,8 @@
 		632AADEC2B3A9360006A57B0 /* GridEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridEntry.swift; sourceTree = "<group>"; };
 		632AADEE2B3A95C7006A57B0 /* GridSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridSection.swift; sourceTree = "<group>"; };
 		632AADF02B3B19CD006A57B0 /* GridSectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridSectionHeader.swift; sourceTree = "<group>"; };
+		632AADF22B3B255F006A57B0 /* LandingBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingBackground.swift; sourceTree = "<group>"; };
+		632AADF42B3B33B9006A57B0 /* JobsColumn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobsColumn.swift; sourceTree = "<group>"; };
 		636587302B3634DD00CC5D5E /* JobImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobImageView.swift; sourceTree = "<group>"; };
 		636587352B38A55D00CC5D5E /* SystemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemView.swift; sourceTree = "<group>"; };
 		636587382B38A56F00CC5D5E /* SystemController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemController.swift; sourceTree = "<group>"; };
@@ -100,6 +104,7 @@
 			children = (
 				632AADEC2B3A9360006A57B0 /* GridEntry.swift */,
 				632AADEE2B3A95C7006A57B0 /* GridSection.swift */,
+				632AADF42B3B33B9006A57B0 /* JobsColumn.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -121,6 +126,7 @@
 			children = (
 				636587302B3634DD00CC5D5E /* JobImageView.swift */,
 				632AADF02B3B19CD006A57B0 /* GridSectionHeader.swift */,
+				632AADF22B3B255F006A57B0 /* LandingBackground.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -274,7 +280,9 @@
 				6394EAD92B3394FB001B4EC3 /* HomeView.swift in Sources */,
 				636587362B38A55D00CC5D5E /* SystemView.swift in Sources */,
 				6365873D2B38A8B400CC5D5E /* LandingView.swift in Sources */,
+				632AADF52B3B33B9006A57B0 /* JobsColumn.swift in Sources */,
 				632AADD72B39F614006A57B0 /* PreviewCookie.swift in Sources */,
+				632AADF32B3B255F006A57B0 /* LandingBackground.swift in Sources */,
 				632AADED2B3A9360006A57B0 /* GridEntry.swift in Sources */,
 				6394EAC32B337A04001B4EC3 /* MidjourneyApp.swift in Sources */,
 				632AADF12B3B19CD006A57B0 /* GridSectionHeader.swift in Sources */,

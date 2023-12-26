@@ -74,13 +74,18 @@ struct LandingView: View {
             .padding(.horizontal, 12)
             Spacer()
         }
+        .shadow(color: .background, radius: 1)
         .padding(.horizontal, 12)
         .background {
-            Color.background
-                .ignoresSafeArea()
-                .onTapGesture {
-                    cookieFieldIsFocused = false
-                }
+            ZStack {
+                LandingBackground()
+                Color.background
+                    .opacity(0.95)
+                    .ignoresSafeArea()
+                    .onTapGesture {
+                        cookieFieldIsFocused = false
+                    }
+            }
         }
         .font(Font.DMSans.regular(size: 14))
     }

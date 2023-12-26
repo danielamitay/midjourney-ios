@@ -45,6 +45,8 @@ struct HomeView: View {
                     .fill(.menu)
                     .stroke(.menuBorder, lineWidth: 1)
                     .frame(height: 62)
+                    .compositingGroup()
+                    .shadow(radius: 6, y: 3)
                     .overlay {
                         HStack {
                             Color.clear
