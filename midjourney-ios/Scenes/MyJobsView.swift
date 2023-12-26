@@ -14,7 +14,7 @@ struct MyJobsView: View {
     let client: Midjourney
 
     @State var myUserId: String? = nil
-    @State var myJobs: [Midjourney.Job] = []
+    @State var gridEntries: [GridEntry] = []
     @State var selectedImage: Midjourney.Job.Image? = nil
 
     private let gridCount: Int = 4
@@ -33,7 +33,7 @@ struct MyJobsView: View {
             .frame(height: 60)
 
             VStack {
-                if myJobs.isEmpty {
+                if gridEntries.isEmpty {
                     LazyVGrid(columns: columns, spacing: gridPadding) {
                         ForEach(0..<100) { _ in
                             Color.loading
@@ -45,11 +45,11 @@ struct MyJobsView: View {
                     }
                 }
                 LazyVGrid(columns: columns, spacing: gridPadding) {
-                    ForEach(myJobs) { job in
+                    ForEach(gridEntries) { entry in
                         Color.loading
                             .aspectRatio(1, contentMode: .fit)
                             .overlay {
-                                let image = job.images.first!
+                                let image = entry.image
                                 let imageUrl = image.webpImageUrl(size: .medium)
                                 KFImage.url(URL(string: imageUrl))
                                     .resizable()
@@ -101,16 +101,16 @@ struct MyJobsView: View {
         case .success(let success):
             myUserId = success.user_id
         case .failure(_):
-            myJobs = []
+            gridEntries = []
         }
     }
 
     func onJobsResult(_ result: Result<[Midjourney.Job], Error>) {
         switch result {
         case .success(let success):
-            myJobs = success
+            gridEntries = GridEntry.entriesForJobs(success)
         case .failure(_):
-            myJobs = []
+            gridEntries = []
         }
     }
 }
