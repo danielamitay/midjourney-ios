@@ -14,7 +14,7 @@ struct MyJobsView: View {
     let client: Midjourney
 
     @State var myUserId: String? = nil
-    @State var gridEntries: [GridEntry] = []
+    @State var gridSections: [GridSection] = []
     @State var selectedImage: Midjourney.Job.Image? = nil
 
     private let gridCount: Int = 4
@@ -23,17 +23,10 @@ struct MyJobsView: View {
 
     var body: some View {
         ScrollView {
-            HStack {
-                Text("Today")
-                    .font(Font.DMSans.semiBold(size: 16))
-                    .foregroundStyle(.standardText)
-                Spacer()
-            }
-            .padding(.horizontal, 27)
-            .frame(height: 60)
-
             VStack {
-                if gridEntries.isEmpty {
+                if gridSections.isEmpty {
+                    sectionHeader(title: "Loading...")
+
                     LazyVGrid(columns: columns, spacing: gridPadding) {
                         ForEach(0..<100) { _ in
                             Color.loading
@@ -43,33 +36,40 @@ struct MyJobsView: View {
                             RoundedRectangle(cornerRadius: gridCorners)
                         )
                     }
+                    .clipShape(
+                        RoundedRectangle(cornerRadius: 12)
+                    )
                 }
-                LazyVGrid(columns: columns, spacing: gridPadding) {
-                    ForEach(gridEntries) { entry in
-                        Color.loading
-                            .aspectRatio(1, contentMode: .fit)
-                            .overlay {
-                                let image = entry.image
-                                let imageUrl = image.webpImageUrl(size: .medium)
-                                KFImage.url(URL(string: imageUrl))
-                                    .resizable()
-                                    .loadDiskFileSynchronously()
-                                    .fade(duration: 0.25)
-                                    .aspectRatio(contentMode: .fill)
-                                    .onTapGesture {
-                                        selectedImage = image
-                                    }
-                            }
+                ForEach(gridSections) { section in
+                    sectionHeader(title: section.title ?? "")
+
+                    LazyVGrid(columns: columns, spacing: gridPadding) {
+                        ForEach(section.entries) { entry in
+                            Color.loading
+                                .aspectRatio(1, contentMode: .fit)
+                                .overlay {
+                                    let image = entry.image
+                                    let imageUrl = image.webpImageUrl(size: .medium)
+                                    KFImage.url(URL(string: imageUrl))
+                                        .resizable()
+                                        .loadDiskFileSynchronously()
+                                        .fade(duration: 0.25)
+                                        .aspectRatio(contentMode: .fill)
+                                        .onTapGesture {
+                                            selectedImage = image
+                                        }
+                                }
+                        }
+                        .clipShape(
+                            RoundedRectangle(cornerRadius: gridCorners)
+                        )
+                        .contentShape(Rectangle())
                     }
                     .clipShape(
-                        RoundedRectangle(cornerRadius: gridCorners)
+                        RoundedRectangle(cornerRadius: 12)
                     )
-                    .contentShape(Rectangle())
                 }
             }
-            .clipShape(
-                RoundedRectangle(cornerRadius: 12)
-            )
             .padding(gridPadding)
         }
         .sheet(item: $selectedImage) { image in
@@ -87,6 +87,18 @@ struct MyJobsView: View {
         }
     }
 
+    func sectionHeader(title: String) -> some View {
+        HStack {
+            Text(title)
+                .font(Font.DMSans.semiBold(size: 16))
+                .foregroundStyle(.standardText)
+            Spacer()
+        }
+        .padding(.horizontal, 27)
+        .frame(height: 50)
+        .padding(.top, 10)
+    }
+
     func fetchJobs() {
         guard let myUserId else { return }
         client.userJobs(myUserId) { result in
@@ -101,16 +113,17 @@ struct MyJobsView: View {
         case .success(let success):
             myUserId = success.user_id
         case .failure(_):
-            gridEntries = []
+            gridSections = []
         }
     }
 
     func onJobsResult(_ result: Result<[Midjourney.Job], Error>) {
         switch result {
         case .success(let success):
-            gridEntries = GridEntry.entriesForJobs(success)
+            let gridEntries = GridEntry.entriesForJobs(success)
+            gridSections = GridSection.gridEntriesSectionedByDate(gridEntries)
         case .failure(_):
-            gridEntries = []
+            gridSections = []
         }
     }
 }
