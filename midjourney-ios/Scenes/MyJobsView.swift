@@ -72,17 +72,27 @@ struct MyJobsView: View {
             }
             .padding(gridPadding)
         }
+        .refreshable {
+            // No error handling :'(
+            try? await fetchJobsAsync()
+        }
         .sheet(item: $selectedImage) { image in
             JobImageView(image: image, placeholderSize: .medium)
         }
         .onAppear {
-            client.userInfo { result in
-                self.onUserInfoResult(result)
+            Task {
+                // No error handling :'(
+                if let userInfo = try? await client.userInfoAsync() {
+                    myUserId = userInfo.user_id
+                }
             }
         }
         .onChange(of: myUserId) {
             if myUserId != nil {
-                fetchJobs()
+                Task {
+                    // No error handling :'(
+                    try? await fetchJobsAsync()
+                }
             }
         }
     }
@@ -99,32 +109,11 @@ struct MyJobsView: View {
         .padding(.top, 10)
     }
 
-    func fetchJobs() {
+    func fetchJobsAsync() async throws {
         guard let myUserId else { return }
-        client.userJobs(myUserId) { result in
-            withAnimation {
-                self.onJobsResult(result)
-            }
-        }
-    }
-
-    func onUserInfoResult(_ result: Result<Midjourney.UserInfo, Error>) {
-        switch result {
-        case .success(let success):
-            myUserId = success.user_id
-        case .failure(_):
-            gridSections = []
-        }
-    }
-
-    func onJobsResult(_ result: Result<[Midjourney.Job], Error>) {
-        switch result {
-        case .success(let success):
-            let gridEntries = GridEntry.entriesForJobs(success)
-            gridSections = GridSection.gridEntriesSectionedByDate(gridEntries)
-        case .failure(_):
-            gridSections = []
-        }
+        let jobs = try await client.userJobsAsync(myUserId)
+        let gridEntries = GridEntry.entriesForJobs(jobs)
+        gridSections = GridSection.gridEntriesSectionedByDate(gridEntries)
     }
 }
 
@@ -135,6 +124,24 @@ extension MyJobsView {
             returnValue.append(.init(.flexible(), spacing: gridPadding))
         }
         return returnValue
+    }
+}
+
+extension Midjourney {
+    func userJobsAsync(_ userId: String, cursor: String? = nil, pageSize: Int = 1000) async throws -> [Job] {
+        return try await withCheckedThrowingContinuation { continuation in
+            userJobs(userId, cursor: cursor, pageSize: pageSize) { result in
+                continuation.resume(with: result)
+            }
+        }
+    }
+
+    func userInfoAsync() async throws -> UserInfo {
+        return try await withCheckedThrowingContinuation { continuation in
+            userInfo() { result in
+                continuation.resume(with: result)
+            }
+        }
     }
 }
 
