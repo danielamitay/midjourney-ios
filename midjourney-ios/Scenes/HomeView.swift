@@ -68,8 +68,7 @@ struct HomeView: View {
                                     HStack(spacing: 5) {
                                         Image(.compassIcon)
                                         Text("Explore")
-                                            .font(.system(size: 15))
-                                            .fontWeight(.medium)
+                                            .font(Font.DMSans.semiBold(size: 15))
                                     }
                                     .foregroundStyle(exploreTextColor)
                                 }
@@ -85,8 +84,7 @@ struct HomeView: View {
                                     HStack(spacing: 2) {
                                         Image(.photoIcon)
                                         Text("My Images")
-                                            .font(.system(size: 15))
-                                            .fontWeight(.medium)
+                                            .font(Font.DMSans.semiBold(size: 15))
                                     }
                                     .foregroundStyle(myImagesTextColor)
                                 }

@@ -13,17 +13,17 @@ struct LandingView: View {
     @State private var cookie: String = ""
     @FocusState private var cookieFieldIsFocused: Bool
 
-    private let gridCount: Int = 2
-    private let gridPadding: CGFloat = 3
-    private let gridCorners: CGFloat = 3
-
     var body: some View {
         VStack {
-            Text("Midjourney")
-                .font(.system(size: 28))
-                .bold()
+            Image(.midjourneyLogo)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(height: 100)
+                .padding(.bottom, -20)
                 .padding(.top, 20)
-            Spacer()
+            Text("Midjourney")
+                .font(Font.DMSans.medium(size: 28))
+                .padding(.bottom, 44)
             HStack {
                 Text("Paste your cookie here:")
                 Spacer()
@@ -52,15 +52,10 @@ struct LandingView: View {
                         }
                     }
                 })
-                .font(.system(size: 14))
+                .font(Font.DMSans.regular(size: 14))
                 .submitLabel(.go)
                 .lineLimit(5...5)
-                .padding()
-                .background {
-                    RoundedRectangle(cornerRadius: 10)
-                        .fill(.menu)
-                        .stroke(.menuBorder, lineWidth: 2)
-                }
+                .textFieldStyle(RoundedBorderTextFieldStyle())
                 Spacer()
             }
             HStack {
@@ -87,6 +82,7 @@ struct LandingView: View {
                     cookieFieldIsFocused = false
                 }
         }
+        .font(Font.DMSans.regular(size: 14))
     }
 
     func setCookie() {

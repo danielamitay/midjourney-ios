@@ -25,7 +25,7 @@ struct MyJobsView: View {
         ScrollView {
             HStack {
                 Text("Today")
-                    .bold()
+                    .font(Font.DMSans.semiBold(size: 16))
                     .foregroundStyle(.standardText)
                 Spacer()
             }

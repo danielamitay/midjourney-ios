@@ -29,14 +29,13 @@ struct RecentJobsView: View {
         ScrollView {
             HStack(spacing: 15) {
                 Text("Explore")
-                    .bold()
                     .foregroundStyle(.standardText)
                 Text("Likes")
                     .opacity(0.7)
-                    .bold()
                     .foregroundStyle(.deselectedText)
                 Spacer()
             }
+            .font(Font.DMSans.semiBold(size: 16))
             .padding(.horizontal, 27)
             .frame(height: 60)
 
