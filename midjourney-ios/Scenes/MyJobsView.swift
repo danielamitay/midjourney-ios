@@ -15,7 +15,7 @@ struct MyJobsView: View {
 
     @State var myUserId: String? = nil
     @State var gridSections: [GridSection] = []
-    @State var selectedImage: Midjourney.Job.Image? = nil
+    @State var selectedEntry: GridEntry? = nil
 
     private let gridCount: Int = 4
     private let gridPadding: CGFloat = 3
@@ -48,15 +48,14 @@ struct MyJobsView: View {
                             Color.loading
                                 .aspectRatio(1, contentMode: .fit)
                                 .overlay {
-                                    let image = entry.image
-                                    let imageUrl = image.webpImageUrl(size: .medium)
+                                    let imageUrl = entry.image.webpImageUrl(size: .medium)
                                     KFImage.url(URL(string: imageUrl))
                                         .resizable()
                                         .loadDiskFileSynchronously()
                                         .fade(duration: 0.25)
                                         .aspectRatio(contentMode: .fill)
                                         .onTapGesture {
-                                            selectedImage = image
+                                            selectedEntry = entry
                                         }
                                 }
                         }
@@ -76,8 +75,8 @@ struct MyJobsView: View {
             // No error handling :'(
             try? await fetchJobsAsync()
         }
-        .sheet(item: $selectedImage) { image in
-            JobImageView(image: image, placeholderSize: .medium)
+        .sheet(item: $selectedEntry) { entry in
+            GridEntrySheet(gridEntry: entry, placeholderSize: .medium)
         }
         .onAppear {
             Task {

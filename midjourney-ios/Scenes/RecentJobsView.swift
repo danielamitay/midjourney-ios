@@ -14,7 +14,7 @@ struct RecentJobsView: View {
     let client: Midjourney
 
     @State var recentJobColumns: [JobsColumn] = []
-    @State var selectedImage: Midjourney.Job.Image? = nil
+    @State var selectedEntry: GridEntry? = nil
 
     private let gridCount: Int = 2
     private let gridPadding: CGFloat = 3
@@ -54,7 +54,7 @@ struct RecentJobsView: View {
                                             .loadDiskFileSynchronously()
                                             .fade(duration: 0.25)
                                             .onTapGesture {
-                                                selectedImage = image
+                                                selectedEntry = GridEntry(job: job, image: image)
                                             }
                                     }
                             }
@@ -68,8 +68,8 @@ struct RecentJobsView: View {
             .contentShape(Rectangle())
             .padding(gridPadding)
         }
-        .sheet(item: $selectedImage) { image in
-            JobImageView(image: image, placeholderSize: .large)
+        .sheet(item: $selectedEntry) { entry in
+            GridEntrySheet(gridEntry: entry, placeholderSize: .large)
         }
         .onAppear {
             client.recentJobs { result in

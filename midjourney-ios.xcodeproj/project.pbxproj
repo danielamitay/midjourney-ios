@@ -21,6 +21,7 @@
 		632AADF12B3B19CD006A57B0 /* GridSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632AADF02B3B19CD006A57B0 /* GridSectionHeader.swift */; };
 		632AADF32B3B255F006A57B0 /* LandingBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632AADF22B3B255F006A57B0 /* LandingBackground.swift */; };
 		632AADF52B3B33B9006A57B0 /* JobsColumn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632AADF42B3B33B9006A57B0 /* JobsColumn.swift */; };
+		632AADF72B3B3AEE006A57B0 /* GridEntrySheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632AADF62B3B3AEE006A57B0 /* GridEntrySheet.swift */; };
 		636587312B3634DD00CC5D5E /* JobImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636587302B3634DD00CC5D5E /* JobImageView.swift */; };
 		636587362B38A55D00CC5D5E /* SystemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636587352B38A55D00CC5D5E /* SystemView.swift */; };
 		636587392B38A56F00CC5D5E /* SystemController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636587382B38A56F00CC5D5E /* SystemController.swift */; };
@@ -51,6 +52,7 @@
 		632AADF02B3B19CD006A57B0 /* GridSectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridSectionHeader.swift; sourceTree = "<group>"; };
 		632AADF22B3B255F006A57B0 /* LandingBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingBackground.swift; sourceTree = "<group>"; };
 		632AADF42B3B33B9006A57B0 /* JobsColumn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobsColumn.swift; sourceTree = "<group>"; };
+		632AADF62B3B3AEE006A57B0 /* GridEntrySheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridEntrySheet.swift; sourceTree = "<group>"; };
 		636587302B3634DD00CC5D5E /* JobImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobImageView.swift; sourceTree = "<group>"; };
 		636587352B38A55D00CC5D5E /* SystemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemView.swift; sourceTree = "<group>"; };
 		636587382B38A56F00CC5D5E /* SystemController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemController.swift; sourceTree = "<group>"; };
@@ -127,6 +129,7 @@
 				636587302B3634DD00CC5D5E /* JobImageView.swift */,
 				632AADF02B3B19CD006A57B0 /* GridSectionHeader.swift */,
 				632AADF22B3B255F006A57B0 /* LandingBackground.swift */,
+				632AADF62B3B3AEE006A57B0 /* GridEntrySheet.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -274,6 +277,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				632AADF72B3B3AEE006A57B0 /* GridEntrySheet.swift in Sources */,
 				6394EADB2B339C91001B4EC3 /* MyJobsView.swift in Sources */,
 				6394EADD2B33E984001B4EC3 /* RecentJobsView.swift in Sources */,
 				632AADE42B3A8A97006A57B0 /* Font.swift in Sources */,
