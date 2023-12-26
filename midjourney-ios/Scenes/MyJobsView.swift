@@ -25,7 +25,7 @@ struct MyJobsView: View {
         ScrollView {
             VStack {
                 if gridSections.isEmpty {
-                    sectionHeader(title: "Loading...")
+                    GridSectionHeader(title: "Loading...")
 
                     LazyVGrid(columns: columns, spacing: gridPadding) {
                         ForEach(0..<100) { _ in
@@ -41,7 +41,7 @@ struct MyJobsView: View {
                     )
                 }
                 ForEach(gridSections) { section in
-                    sectionHeader(title: section.title ?? "")
+                    GridSectionHeader(title: section.title ?? "")
 
                     LazyVGrid(columns: columns, spacing: gridPadding) {
                         ForEach(section.entries) { entry in
@@ -97,23 +97,13 @@ struct MyJobsView: View {
         }
     }
 
-    func sectionHeader(title: String) -> some View {
-        HStack {
-            Text(title)
-                .font(Font.DMSans.semiBold(size: 16))
-                .foregroundStyle(.standardText)
-            Spacer()
-        }
-        .padding(.horizontal, 27)
-        .frame(height: 50)
-        .padding(.top, 10)
-    }
-
     func fetchJobsAsync() async throws {
         guard let myUserId else { return }
         let jobs = try await client.userJobsAsync(myUserId)
         let gridEntries = GridEntry.entriesForJobs(jobs)
-        gridSections = GridSection.gridEntriesSectionedByDate(gridEntries)
+        withAnimation {
+            gridSections = GridSection.gridEntriesSectionedByDate(gridEntries)
+        }
     }
 }
 

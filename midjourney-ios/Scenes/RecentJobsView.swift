@@ -27,18 +27,9 @@ struct RecentJobsView: View {
 
     var body: some View {
         ScrollView {
-            HStack(spacing: 15) {
-                Text("Explore")
-                    .foregroundStyle(.standardText)
-                Text("Likes")
-                    .opacity(0.7)
-                    .foregroundStyle(.deselectedText)
-                Spacer()
-            }
-            .font(Font.DMSans.semiBold(size: 16))
-            .padding(.horizontal, 27)
-            .frame(height: 60)
-
+            GridSectionHeader(title: "Explore")
+                .padding(gridPadding)
+                .padding(.bottom, -gridPadding * 2)
             VStack {
                 if recentJobColumns.isEmpty {
                     HStack(alignment: .top, spacing: gridPadding) {
