@@ -15,12 +15,7 @@ struct HomeView: View {
 
     @EnvironmentObject private var controller: SystemController
 
-    enum Tab {
-        case explore
-        case myImages
-    }
-
-    @State var selectedTab: Tab = .explore
+    @State var selectedTab: HomeTab = .explore
 
     var body: some View {
         ZStack {
@@ -39,62 +34,7 @@ struct HomeView: View {
                 .offset(x: selectedTab == .myImages ? 0.0 : 50)
                 .animation(.easeOut(duration: 0.2), value: selectedTab == .myImages)
 
-            VStack {
-                Spacer()
-                RoundedRectangle(cornerRadius: 10)
-                    .fill(.menu)
-                    .stroke(.menuBorder, lineWidth: 1)
-                    .frame(height: 62)
-                    .compositingGroup()
-                    .shadow(radius: 6, y: 3)
-                    .overlay {
-                        HStack {
-                            Color.clear
-                                .aspectRatio(1, contentMode: .fit)
-                                .overlay {
-                                    Image(.menuIcon)
-                                        .foregroundStyle(.standardText)
-                                }
-                                .onTapGesture {
-                                    controller.clearCookie()
-                                }
-                            let exploreButtonColor = selectedTab == .explore ? Color.selectedText.opacity(0.1) : Color.menu
-                            let exploreTextColor = selectedTab == .explore ? Color.selectedText : Color.deselectedText
-                            RoundedRectangle(cornerRadius: 8)
-                                .fill(exploreButtonColor)
-                                .stroke(exploreButtonColor.opacity(0.1), lineWidth: 1)
-                                .onTapGesture {
-                                    selectedTab = .explore
-                                }
-                                .overlay {
-                                    HStack(spacing: 5) {
-                                        Image(.compassIcon)
-                                        Text("Explore")
-                                            .font(Font.DMSans.semiBold(size: 15))
-                                    }
-                                    .foregroundStyle(exploreTextColor)
-                                }
-                            let myImagesButtonColor = selectedTab == .myImages ? Color.selectedText.opacity(0.1) : Color.menu
-                            let myImagesTextColor = selectedTab == .myImages ? Color.selectedText : Color.deselectedText
-                            RoundedRectangle(cornerRadius: 8)
-                                .fill(myImagesButtonColor)
-                                .stroke(myImagesButtonColor, lineWidth: 1)
-                                .onTapGesture {
-                                    selectedTab = .myImages
-                                }
-                                .overlay {
-                                    HStack(spacing: 2) {
-                                        Image(.photoIcon)
-                                        Text("My Images")
-                                            .font(Font.DMSans.semiBold(size: 15))
-                                    }
-                                    .foregroundStyle(myImagesTextColor)
-                                }
-                        }
-                        .padding(8)
-                    }
-                    .padding(.horizontal, 12)
-            }
+            HomeMenuView(selectedTab: $selectedTab)
         }
     }
 }
