@@ -46,6 +46,16 @@ struct HomeMenuView: View {
             .padding(.horizontal, 12)
             .font(Font.DMSans.semiBold(size: 15))
         }
+        .background {
+            if menuExpanded {
+                Color.clear
+                    .ignoresSafeArea()
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        menuExpanded.toggle()
+                    }
+            }
+        }
     }
 
     var tabBar: some View {
