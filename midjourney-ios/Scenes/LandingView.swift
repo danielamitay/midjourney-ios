@@ -12,27 +12,29 @@ struct LandingView: View {
 
     @State private var cookie: String = ""
     @FocusState private var cookieFieldIsFocused: Bool
+    @State private var cookieStepsVisible = false
 
     var body: some View {
-        VStack {
-            Image(.midjourneyLogo)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(height: 100)
-                .padding(.bottom, -20)
-                .padding(.top, 20)
-            Text("Midjourney")
-                .font(Font.DMSans.medium(size: 28))
-                .padding(.bottom, 44)
-            HStack {
-                Text("Paste your cookie here:")
-                Spacer()
-            }
-            .padding(.horizontal, 8)
+        ScrollView {
+            VStack {
+                Image(.midjourneyLogo)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(height: 100)
+                    .padding(.bottom, -20)
+                    .padding(.top, 20)
+                Text("Midjourney")
+                    .font(Font.DMSans.medium(size: 28))
+                    .padding(.bottom, 44)
+                HStack {
+                    Text("Paste your Midjourney web cookie here:")
+                    Spacer()
+                }
+                .padding(.horizontal, 8)
 
-            HStack {
-                Spacer()
-                TextField(
+                HStack {
+                    Spacer()
+                    TextField(
                     """
                     _ga=GA123.123...;
                     __Host-Midjourney.AuthUserToken=eyAbC...;
@@ -41,39 +43,66 @@ struct LandingView: View {
                     """,
                     text: $cookie,
                     axis: .vertical
-                )
-                .focused($cookieFieldIsFocused)
-                .onChange(of: cookie, {
-                    if cookie.hasSuffix("\n") {
-                        cookie.removeLast()
-                        cookieFieldIsFocused = false
-                        if cookie.isValidCookieFormat {
-                            setCookie()
+                    )
+                    .focused($cookieFieldIsFocused)
+                    .onChange(of: cookie, {
+                        if cookie.hasSuffix("\n") {
+                            cookie.removeLast()
+                            cookieFieldIsFocused = false
+                            if cookie.isValidCookieFormat {
+                                setCookie()
+                            }
                         }
+                    })
+                    .font(Font.DMSans.regular(size: 14))
+                    .submitLabel(.go)
+                    .lineLimit(5...5)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    Spacer()
+                }
+                HStack {
+                    if !PreviewCookie.value.isEmpty && !cookie.isValidCookieFormat {
+                        Button("Paste Test Cookie") {
+                            cookie = PreviewCookie.value
+                        }
+                        .foregroundStyle(.green)
                     }
+                    Spacer()
+                    Button(cookieButtonText) {
+                        setCookie()
+                    }
+                    .disabled(!cookie.isValidCookieFormat)
+                }
+                .padding(.horizontal, 12)
+
+                Spacer()
+
+                Button(action: {
+                    withAnimation {
+                        cookieStepsVisible.toggle()
+                    }
+                }, label: {
+                    HStack(spacing: 4) {
+                        if cookieStepsVisible {
+                            Image(systemName: "chevron.up.circle")
+                        } else {
+                            Image(systemName: "chevron.down.circle")
+                        }
+                        Text(cookieStepsVisible ? "How to find your cookie:" : "How do I find my cookie?")
+                            .padding(.trailing, cookieStepsVisible ? 7 : 0)
+                    }
+                    .padding(30)
                 })
-                .font(Font.DMSans.regular(size: 14))
-                .submitLabel(.go)
-                .lineLimit(5...5)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
+
+                if cookieStepsVisible {
+                    CookieStepsView()
+                }
+
                 Spacer()
             }
-            HStack {
-                if !PreviewCookie.value.isEmpty && !cookie.isValidCookieFormat {
-                    Button("Paste Test Cookie") {
-                        cookie = PreviewCookie.value
-                    }
-                    .foregroundStyle(.green)
-                }
-                Spacer()
-                Button(cookieButtonText) {
-                    setCookie()
-                }
-                .disabled(!cookie.isValidCookieFormat)
-            }
-            .padding(.horizontal, 12)
-            Spacer()
         }
+        .scrollBounceBehavior(.basedOnSize)
+        .scrollIndicators(.hidden)
         .shadow(color: .background, radius: 1)
         .padding(.horizontal, 12)
         .background {
