@@ -116,24 +116,6 @@ extension MyJobsView {
     }
 }
 
-extension Midjourney {
-    func userJobsAsync(_ userId: String, cursor: String? = nil, pageSize: Int = 1000) async throws -> [Job] {
-        return try await withCheckedThrowingContinuation { continuation in
-            userJobs(userId, cursor: cursor, pageSize: pageSize) { result in
-                continuation.resume(with: result)
-            }
-        }
-    }
-
-    func userInfoAsync() async throws -> UserInfo {
-        return try await withCheckedThrowingContinuation { continuation in
-            userInfo() { result in
-                continuation.resume(with: result)
-            }
-        }
-    }
-}
-
 #Preview {
     MyJobsView(
         client: .init(cookie: PreviewCookie.value)

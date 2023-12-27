@@ -15,10 +15,6 @@ struct GridEntrySheet: View {
 
     @State private var captionVisible = true
 
-    var parsedCommand: ParsedCommand {
-        return ParsedCommand(full_command: gridEntry.job.full_command)
-    }
-
     var body: some View {
         ZStack {
             JobImageView(image: gridEntry.image, placeholderSize: placeholderSize)
@@ -30,20 +26,20 @@ struct GridEntrySheet: View {
             VStack {
                 Spacer()
                 VStack {
+                    let parsedCommand = gridEntry.job.parsedCommand
                     HStack {
                         Text(parsedCommand.prompt)
                             .foregroundStyle(.white)
                             .font(Font.DMSans.regular(size: 14))
                         Spacer()
                     }
-                    let parameters = Array(parsedCommand.parameters).sorted { $0.key < $1.key }
-                    if parameters.count > 0 {
+                    if parsedCommand.parameters.count > 0 {
                         HStack {
-                            ForEach(parameters, id: \.key) { key, value in
+                            ForEach(parsedCommand.parameters) { parameter in
                                 HStack(spacing: 2) {
-                                    Text(key)
+                                    Text(parameter.name)
                                         .foregroundStyle(.white.opacity(0.75))
-                                    Text(value)
+                                    Text(parameter.value)
                                         .foregroundStyle(.white)
                                 }
                                 .font(Font.DMSans.medium(size: 14))
@@ -76,26 +72,15 @@ struct GridEntrySheet: View {
 }
 
 struct ParsedCommand {
-    let prompt: String
-    let parameters: [String: String]
-}
-
-extension ParsedCommand {
-    init(full_command: String) {
-        let components = full_command.components(separatedBy: "--")
-        self.prompt = components.first?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
-
-        var parameters: [String: String] = [:]
-        components.dropFirst().forEach { component in
-            let pair = component.split(separator: " ", maxSplits: 1, omittingEmptySubsequences: true)
-            if pair.count == 2 {
-                let key = String(pair[0]).trimmingCharacters(in: .whitespacesAndNewlines)
-                let value = String(pair[1]).trimmingCharacters(in: .whitespacesAndNewlines)
-                parameters[key] = value
-            }
+    struct Parameter: Identifiable {
+        var id: String {
+            return "--\(name) \(value)"
         }
-        self.parameters = parameters
+        let name: String
+        let value: String
     }
+    let prompt: String
+    let parameters: [Parameter]
 }
 
 /*
