@@ -35,17 +35,17 @@ struct JobImageView: View {
                     .aspectRatio(image.aspectRatio, contentMode: .fit)
                     .background {
                         Color.loading
+                            .padding(2)
                     }
                     .mask {
                         RoundedRectangle(cornerRadius: 12)
                     }
                     .padding(11)
-                    .background {
-                        Color.black
-                            .ignoresSafeArea()
-                    }
             }
-            .ignoresSafeArea()
+            .background {
+                Color.black
+                    .ignoresSafeArea()
+            }
     }
 }
 
