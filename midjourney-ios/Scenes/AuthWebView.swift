@@ -52,8 +52,9 @@ struct AuthWebView: UIViewRepresentable {
         }
 
         func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
-            if let url = webView.url {
-                if url.absoluteString != "https://www.midjourney.com/explore" {
+            if let url = webView.url?.absoluteString {
+                if (url != "https://www.midjourney.com/explore"
+                    && url != "https://www.midjourney.com/home?callbackUrl=%2Fexplore") {
                     autoSignInTimer?.invalidate()
                 }
             }
@@ -61,7 +62,8 @@ struct AuthWebView: UIViewRepresentable {
 
         func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
             if let url = webView.url?.absoluteString {
-                if url == "https://www.midjourney.com/explore" {
+                if (url == "https://www.midjourney.com/home?callbackUrl=%2Fexplore"
+                    || url == "https://www.midjourney.com/explore") {
                     webView.disableAnimations()
                     autoSignInTimer?.invalidate()
                     autoSignInTimer = .scheduledTimer(withTimeInterval: 0.05, repeats: true, block: { [weak webView] _ in
