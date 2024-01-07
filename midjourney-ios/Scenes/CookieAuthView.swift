@@ -21,7 +21,6 @@ struct CookieAuthView: View {
                     Spacer()
                 }
                 .padding(.horizontal, 8)
-                .padding(.top, 20)
 
                 HStack {
                     Spacer()

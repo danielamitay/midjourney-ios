@@ -38,7 +38,6 @@ struct LandingView: View {
                         .shadow(radius: 6, y: 3)
                 }
                 .padding(.horizontal, 12)
-                .padding(.bottom, 20)
                 .font(Font.DMSans.semiBold(size: 15))
         }
         .padding(.horizontal, 12)
@@ -53,21 +52,44 @@ struct LandingView: View {
         }
         .font(Font.DMSans.regular(size: 14))
         .sheet(isPresented: $discordAuthSheet, content: {
-            AuthWebView { result in
-                discordAuthSheet.toggle()
-                switch result {
-                case .success(let cookie):
-                    controller.setCookie(cookie)
-                case .failure(_):
-                    break
+            NavigationStack {
+                AuthWebView { result in
+                    discordAuthSheet.toggle()
+                    switch result {
+                    case .success(let cookie):
+                        controller.setCookie(cookie)
+                    case .failure(_):
+                        break
+                    }
+                }
+                .ignoresSafeArea(edges: .bottom)
+                .navigationTitle("Discord Auth")
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        Button("Cancel") {
+                            discordAuthSheet.toggle()
+                        }
+                    }
                 }
             }
             .ignoresSafeArea()
         })
         .sheet(isPresented: $cookieAuthSheet, content: {
-            CookieAuthView { cookie in
-                cookieAuthSheet.toggle()
-                controller.setCookie(cookie)
+            NavigationStack {
+                CookieAuthView { cookie in
+                    cookieAuthSheet.toggle()
+                    controller.setCookie(cookie)
+                }
+                .navigationTitle("Cookie Auth")
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        Button("Cancel") {
+                            cookieAuthSheet.toggle()
+                        }
+                    }
+                }
             }
             .ignoresSafeArea()
         })

@@ -12,10 +12,13 @@ struct AuthWebView: UIViewRepresentable {
     typealias UIViewType = WKWebView
 
     let onComplete: (Result<String, Error>) -> Void
-    private var webView: WKWebView = WKWebView()
+    private var webView: WKWebView
 
     init(_ onComplete: @escaping (Result<String, Error>) -> Void) {
         self.onComplete = onComplete
+        let configuration = WKWebViewConfiguration()
+        configuration.websiteDataStore = .nonPersistent()
+        self.webView = WKWebView(frame: .zero, configuration: configuration)
     }
 
     func makeUIView(context: Context) -> WKWebView {
@@ -57,29 +60,30 @@ struct AuthWebView: UIViewRepresentable {
         }
 
         func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-            if let url = webView.url {
-                if url.absoluteString == "https://www.midjourney.com/explore" {
+            if let url = webView.url?.absoluteString {
+                if url == "https://www.midjourney.com/explore" {
                     webView.disableAnimations()
                     autoSignInTimer?.invalidate()
                     autoSignInTimer = .scheduledTimer(withTimeInterval: 0.05, repeats: true, block: { [weak webView] _ in
                         webView?.selectSignInButton()
                     })
-                } else if url.absoluteString.starts(with: "https://www.midjourney.com/__/auth/handler?code=") {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        if let url = URL(string: "https://www.midjourney.com/explore") {
-                            let request = URLRequest(url: url)
-                            webView.load(request)
+                } else if url.starts(with: "https://www.midjourney.com/__/auth/handler?code=") {
+                    webView.configuration.processPool = .init()
+                    for delay in 1...5 {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(delay)) {
+                            if let url = URL(string: "https://www.midjourney.com/explore") {
+                                let request = URLRequest(url: url)
+                                webView.load(request)
+                            }
                         }
                     }
-                } else if url.absoluteString.starts(with: "https://www.midjourney.com/__/auth/handler?error=") {
+                } else if url.starts(with: "https://www.midjourney.com/__/auth/handler?error=") {
                     self.parent.onComplete(.failure(AuthError.denied))
                 }
             }
 
-            webView.configuration.websiteDataStore.httpCookieStore.getAllCookies { cookies in
-                for cookie in cookies {
-                    webView.configuration.websiteDataStore.httpCookieStore.delete(cookie)
-                }
+            let httpCookieStore = webView.configuration.websiteDataStore.httpCookieStore
+            httpCookieStore.getAllCookies { cookies in
                 let mjCookieString = cookies
                     .filter { $0.domain.contains("www.midjourney.com") }
                     .reduce(into: [:]) { $0[$1.name] = $1.value }
