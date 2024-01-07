@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		63244BE62B4A124E009758E9 /* AuthWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63244BE52B4A124E009758E9 /* AuthWebView.swift */; };
 		632AADD72B39F614006A57B0 /* PreviewCookie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632AADD62B39F614006A57B0 /* PreviewCookie.swift */; };
 		632AADDD2B3A893E006A57B0 /* DMSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 632AADD92B3A893E006A57B0 /* DMSans-Regular.ttf */; };
 		632AADDE2B3A893E006A57B0 /* DMSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 632AADDA2B3A893E006A57B0 /* DMSans-Bold.ttf */; };
@@ -39,6 +40,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		63244BE52B4A124E009758E9 /* AuthWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthWebView.swift; sourceTree = "<group>"; };
 		632AADD62B39F614006A57B0 /* PreviewCookie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewCookie.swift; sourceTree = "<group>"; };
 		632AADD92B3A893E006A57B0 /* DMSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DMSans-Regular.ttf"; sourceTree = "<group>"; };
 		632AADDA2B3A893E006A57B0 /* DMSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DMSans-Bold.ttf"; sourceTree = "<group>"; };
@@ -123,6 +125,7 @@
 				6394EADC2B33E984001B4EC3 /* RecentJobsView.swift */,
 				636587352B38A55D00CC5D5E /* SystemView.swift */,
 				6365873C2B38A8B400CC5D5E /* LandingView.swift */,
+				63244BE52B4A124E009758E9 /* AuthWebView.swift */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -285,6 +288,7 @@
 			files = (
 				632AADF72B3B3AEE006A57B0 /* GridEntrySheet.swift in Sources */,
 				6394EADB2B339C91001B4EC3 /* MyJobsView.swift in Sources */,
+				63244BE62B4A124E009758E9 /* AuthWebView.swift in Sources */,
 				6394EADD2B33E984001B4EC3 /* RecentJobsView.swift in Sources */,
 				632AADF92B3B409E006A57B0 /* HomeMenuView.swift in Sources */,
 				632AADE42B3A8A97006A57B0 /* Font.swift in Sources */,
