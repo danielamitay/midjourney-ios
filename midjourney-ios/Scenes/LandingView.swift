@@ -10,151 +10,104 @@ import SwiftUI
 struct LandingView: View {
     @EnvironmentObject private var controller: SystemController
 
-    @State private var cookie: String = ""
-    @FocusState private var cookieFieldIsFocused: Bool
-    @State private var cookieStepsVisible = false
+    @State private var cookieAuthSheet = false
+    @State private var discordAuthSheet = false
 
     var body: some View {
-        ScrollView {
-            VStack {
-                Image(.midjourneyLogo)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(height: 100)
-                    .padding(.bottom, -20)
-                    .padding(.top, 20)
-                Text("Midjourney")
-                    .font(Font.DMSans.medium(size: 28))
-                    .padding(.bottom, 44)
-                HStack {
-                    Text("Paste your Midjourney web cookie here:")
-                    Spacer()
-                }
-                .padding(.horizontal, 8)
+        VStack {
+            Spacer()
+            Image(.midjourneyLogo)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(height: 100)
+                .padding(.bottom, -20)
+                .padding(.top, 20)
+            Text("Midjourney")
+                .font(Font.DMSans.medium(size: 28))
+                .padding(.bottom, 44)
 
-                HStack {
-                    Spacer()
-                    TextField(
-                    """
-                    _ga=GA123.123...;
-                    __Host-Midjourney.AuthUserToken=eyAbC...;
-                    __Host-Midjourney.AuthUserToken.sig=eyAbC...;
-                    __Host-Midjourney.AuthUser=eyAbC...;
-                    """,
-                    text: $cookie,
-                    axis: .vertical
-                    )
-                    .focused($cookieFieldIsFocused)
-                    .onChange(of: cookie, {
-                        if cookie.hasSuffix("\n") {
-                            cookie.removeLast()
-                            cookieFieldIsFocused = false
-                            if cookie.isValidCookieFormat {
-                                setCookie()
-                            }
-                        }
-                    })
-                    .font(Font.DMSans.regular(size: 14))
-                    .submitLabel(.go)
-                    .lineLimit(5...5)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    Spacer()
-                }
-                HStack {
-                    if !PreviewCookie.value.isEmpty && !cookie.isValidCookieFormat {
-                        Button("Paste Test Cookie") {
-                            cookie = PreviewCookie.value
-                        }
-                        .foregroundStyle(.green)
-                    }
-                    Spacer()
-                    Button(cookieButtonText) {
-                        setCookie()
-                    }
-                    .disabled(!cookie.isValidCookieFormat)
+            Spacer()
+
+            authBar
+                .frame(height: 62)
+                .background {
+                    RoundedRectangle(cornerRadius: 10)
+                        .fill(.menu)
+                        .stroke(.white.opacity(0.25), lineWidth: 1)
+                        .compositingGroup()
+                        .shadow(radius: 6, y: 3)
                 }
                 .padding(.horizontal, 12)
-
-                Spacer()
-
-                Button(action: {
-                    withAnimation {
-                        cookieStepsVisible.toggle()
-                    }
-                }, label: {
-                    HStack(spacing: 4) {
-                        if cookieStepsVisible {
-                            Image(systemName: "chevron.up.circle")
-                        } else {
-                            Image(systemName: "chevron.down.circle")
-                        }
-                        Text(cookieStepsVisible ? "How to find your cookie:" : "How do I find my cookie?")
-                            .padding(.trailing, cookieStepsVisible ? 7 : 0)
-                    }
-                    .padding(30)
-                })
-
-                if cookieStepsVisible {
-                    CookieStepsView()
-                }
-
-                Spacer()
-            }
+                .padding(.bottom, 20)
+                .font(Font.DMSans.semiBold(size: 15))
         }
-        .scrollBounceBehavior(.basedOnSize)
-        .scrollIndicators(.hidden)
-        .shadow(color: .background, radius: 1)
         .padding(.horizontal, 12)
+        .frame(maxWidth: .infinity)
         .background {
             ZStack {
                 LandingBackground()
                 Color.background
-                    .opacity(0.95)
+                    .opacity(0.9)
                     .ignoresSafeArea()
-                    .onTapGesture {
-                        cookieFieldIsFocused = false
-                    }
             }
         }
         .font(Font.DMSans.regular(size: 14))
-    }
-
-    func setCookie() {
-        cookieFieldIsFocused = false
-        guard cookie.isValidCookieFormat else { return }
-        controller.setCookie(cookie)
-    }
-
-    var cookieButtonText: String {
-        if cookie.isEmpty {
-            return "No cookie detected"
-        } else if !cookie.isValidCookieFormat {
-            return "Invalid cookie or format"
-        } else {
-            return "Use cookie"
-        }
-    }
-}
-
-extension String {
-    var isValidCookieFormat: Bool {
-        var cookieKeyValuePairs = [String: String]()
-        let keyValueStrings = components(separatedBy: "; ")
-        for pair in keyValueStrings {
-            let elements = pair.components(separatedBy: "=")
-            if elements.count == 2 {
-                let key = elements[0]
-                let value = elements[1]
-                cookieKeyValuePairs[key] = value
+        .sheet(isPresented: $discordAuthSheet, content: {
+            AuthWebView { result in
+                discordAuthSheet.toggle()
+                switch result {
+                case .success(let cookie):
+                    controller.setCookie(cookie)
+                case .failure(_):
+                    break
+                }
             }
+            .ignoresSafeArea()
+        })
+        .sheet(isPresented: $cookieAuthSheet, content: {
+            CookieAuthView { cookie in
+                cookieAuthSheet.toggle()
+                controller.setCookie(cookie)
+            }
+            .ignoresSafeArea()
+        })
+    }
+
+    var authBar: some View {
+        HStack {
+            RoundedRectangle(cornerRadius: 8)
+                .fill(.discord)
+                .stroke(.white.opacity(0.2), lineWidth: 1)
+                .onTapGesture {
+                    discordAuthSheet.toggle()
+                }
+                .overlay {
+                    HStack(spacing: 5) {
+                        Image(.discordIcon)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 16)
+                        Text("Discord Auth")
+                    }
+                    .foregroundStyle(.white)
+                }
+            RoundedRectangle(cornerRadius: 8)
+                .fill(Color.menu)
+                .onTapGesture {
+                    cookieAuthSheet.toggle()
+                }
+                .overlay {
+                    HStack(spacing: 5) {
+                        Image(.cookieIcon)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 16)
+                        Text("Cookie Auth")
+                    }
+                    .foregroundStyle(Color.deselectedText)
+                }
         }
-        // We expect a minimum set of key/value pairs in the cookie string
-        let expectedCookieKeys = [
-            "__Host-Midjourney.AuthUserToken",
-            "__Host-Midjourney.AuthUserToken.sig",
-            "__Host-Midjourney.AuthUser"
-        ]
-        return expectedCookieKeys.allSatisfy(cookieKeyValuePairs.keys.contains)
+        .padding(8)
     }
 }
 
