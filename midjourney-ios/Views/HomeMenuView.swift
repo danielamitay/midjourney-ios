@@ -19,6 +19,7 @@ struct HomeMenuView: View {
 
     @EnvironmentObject private var controller: SystemController
 
+    @State private var imagineAlert = false
     @State private var menuExpanded = false
     @State private var appIconName = UIApplication.shared.alternateIconName
 
@@ -42,7 +43,7 @@ struct HomeMenuView: View {
                     startPoint: .bottom,
                     endPoint: .top
                 )
-                .frame(height: 80)
+                .frame(height: 140)
                 Color.background
                     .frame(height: 20 + geometry.safeAreaInsets.bottom)
             }
@@ -79,6 +80,38 @@ struct HomeMenuView: View {
                 .background(Color.background)
             } else {
                 Spacer()
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(Color.menu)
+                    .stroke(Color.menuBorder, lineWidth: 1)
+                    .frame(height: 50)
+                    .shadow(color: .black.opacity(0.1), radius: 5)
+                    .overlay {
+                        HStack(spacing: 0) {
+                            Color.clear
+                                .frame(width: 50, height: 50)
+                                .overlay {
+                                    Image(.plusIcon)
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fill)
+                                        .frame(width: 22, height: 22)
+                                }
+                            Text("Imagine... (coming soon)")
+                                .font(.DMSans.medium(size: 14))
+                            Spacer()
+                        }
+                        .foregroundStyle(Color.placeholder)
+                    }
+                    .onTapGesture {
+                        imagineAlert.toggle()
+                    }
+                    .padding(12)
+                    .alert(isPresented: $imagineAlert) {
+                        Alert(
+                            title: Text("/imagine unavailable"),
+                            message: Text("Imagine is currently unavailable outside of Alpha testing for users with over 10,000 image generations."),
+                            dismissButton: .default(Text("OK"))
+                        )
+                    }
             }
             HStack(spacing: 0) {
                 Button {
