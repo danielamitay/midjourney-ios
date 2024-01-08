@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+import SmoothGradient
+
 enum HomeTab {
     case explore
     case myImages
@@ -21,90 +23,118 @@ struct HomeMenuView: View {
     @State private var appIconName = UIApplication.shared.alternateIconName
 
     var body: some View {
-        VStack {
-            Spacer()
-            VStack {
-                if menuExpanded {
-                    VStack {
-                        appIconRow
-                        menuButton(title: "Sign Out")
-                            .onTapGesture {
-                                controller.clearCookie()
-                            }
-                    }
-                    .padding(10)
-                    .padding(.bottom, -12)
-                }
-                tabBar
-                    .frame(height: 62)
-            }
-            .background {
-                RoundedRectangle(cornerRadius: 10)
-                    .fill(.menu)
-                    .stroke(.menuBorder, lineWidth: 1)
-                    .compositingGroup()
-                    .shadow(radius: 6, y: 3)
-            }
-            .padding(.horizontal, 12)
-            .font(Font.DMSans.semiBold(size: 15))
+        ZStack {
+            gradientBackground
+            tabBar
         }
-        .background {
-            if menuExpanded {
-                Color.clear
-                    .ignoresSafeArea()
-                    .contentShape(Rectangle())
-                    .onTapGesture {
-                        menuExpanded.toggle()
-                    }
+    }
+
+    var gradientBackground: some View {
+        GeometryReader { geometry in
+            VStack(spacing: 0) {
+                Spacer()
+                LinearGradient(
+                    gradient: .smooth(
+                        from: Color.background,
+                        to: Color.background.opacity(0),
+                        curve: .easeInOut
+                    ),
+                    startPoint: .bottom,
+                    endPoint: .top
+                )
+                .frame(height: 80)
+                Color.background
+                    .frame(height: 20 + geometry.safeAreaInsets.bottom)
             }
+            .ignoresSafeArea()
         }
     }
 
     var tabBar: some View {
-        HStack {
-            Color.clear
-                .aspectRatio(1, contentMode: .fit)
-                .overlay {
-                    Image(menuExpanded ? .closeIcon : .menuIcon)
-                        .foregroundStyle(.standardText)
-                }
+        VStack(spacing: 0) {
+            if menuExpanded {
+                LinearGradient(
+                    gradient: .smooth(
+                        from: Color.background,
+                        to: Color.background.opacity(0.8),
+                        curve: .easeInOut
+                    ),
+                    startPoint: .bottom,
+                    endPoint: .top
+                )
+                .ignoresSafeArea()
+                .contentShape(Rectangle())
                 .onTapGesture {
                     menuExpanded.toggle()
                 }
-            let exploreButtonColor = selectedTab == .explore ? Color.selectedText.opacity(0.1) : Color.menu
-            let exploreTextColor = selectedTab == .explore ? Color.selectedText : Color.deselectedText
-            RoundedRectangle(cornerRadius: 8)
-                .fill(exploreButtonColor)
-                .stroke(exploreButtonColor, lineWidth: 1)
-                .onTapGesture {
+                VStack {
+                    appIconRow
+                    menuButton(title: "Sign Out")
+                        .onTapGesture {
+                            controller.clearCookie()
+                        }
+                }
+                .padding(12)
+                .padding(.bottom, 12)
+                .background(Color.background)
+            } else {
+                Spacer()
+            }
+            HStack(spacing: 0) {
+                Button {
+                    menuExpanded.toggle()
+                } label: {
+                    Spacer()
+                    Spacer()
+                    VStack(spacing: 5) {
+                        Image(menuExpanded ? .closeIcon : .menuIcon)
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 22, height: 22)
+                        Text("Menu")
+                    }
+                    Spacer()
+                }
+                .foregroundStyle(Color.deselectedText)
+
+                let exploreButtonColor = selectedTab == .explore ? Color.selectedText : Color.deselectedText
+                Button {
                     selectedTab = .explore
                     menuExpanded = false
-                }
-                .overlay {
-                    HStack(spacing: 5) {
+                } label: {
+                    Spacer()
+                    VStack(spacing: 5) {
                         Image(.compassIcon)
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 22, height: 22)
                         Text("Explore")
                     }
-                    .foregroundStyle(exploreTextColor)
+                    Spacer()
                 }
-            let myImagesButtonColor = selectedTab == .myImages ? Color.selectedText.opacity(0.1) : Color.menu
-            let myImagesTextColor = selectedTab == .myImages ? Color.selectedText : Color.deselectedText
-            RoundedRectangle(cornerRadius: 8)
-                .fill(myImagesButtonColor)
-                .stroke(myImagesButtonColor, lineWidth: 1)
-                .onTapGesture {
+                .foregroundStyle(exploreButtonColor)
+
+                let myImagesButtonColor = selectedTab == .myImages ? Color.selectedText : Color.deselectedText
+                Button {
                     selectedTab = .myImages
                     menuExpanded = false
-                }
-                .overlay {
-                    HStack(spacing: 2) {
+                } label: {
+                    Spacer()
+                    VStack(spacing: 5) {
                         Image(.photoIcon)
-                        Text("My Images")
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 22, height: 22)
+                        Text("Gallery")
                     }
-                    .foregroundStyle(myImagesTextColor)
+                    Spacer()
+                    Spacer()
                 }
+                .foregroundStyle(myImagesButtonColor)
+            }
+            .background(menuExpanded ? Color.background : nil)
         }
-        .padding(8)
+        .font(Font.DMSans.medium(size: 12))
     }
 
     var appIconRow: some View {
@@ -160,5 +190,5 @@ struct HomeMenuView: View {
 
 #Preview {
     HomeMenuView(selectedTab: .constant(.explore))
-        .background(Color.background)
+        .background(Color.gray)
 }

@@ -26,6 +26,7 @@
 		632AADF92B3B409E006A57B0 /* HomeMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632AADF82B3B409E006A57B0 /* HomeMenuView.swift */; };
 		6330A67B2B3BE4EC007F1757 /* CookieStepsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6330A67A2B3BE4EC007F1757 /* CookieStepsView.swift */; };
 		633972662B4A6F5400633C06 /* CookieAuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633972652B4A6F5400633C06 /* CookieAuthView.swift */; };
+		633972692B4B569A00633C06 /* SmoothGradient in Frameworks */ = {isa = PBXBuildFile; productRef = 633972682B4B569A00633C06 /* SmoothGradient */; };
 		636587312B3634DD00CC5D5E /* JobImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636587302B3634DD00CC5D5E /* JobImageView.swift */; };
 		636587362B38A55D00CC5D5E /* SystemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636587352B38A55D00CC5D5E /* SystemView.swift */; };
 		636587392B38A56F00CC5D5E /* SystemController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636587382B38A56F00CC5D5E /* SystemController.swift */; };
@@ -79,6 +80,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				633972692B4B569A00633C06 /* SmoothGradient in Frameworks */,
 				6394EAD52B337B4D001B4EC3 /* Kingfisher in Frameworks */,
 				6394EAD22B337B3C001B4EC3 /* Midjourney in Frameworks */,
 			);
@@ -223,6 +225,7 @@
 			packageProductDependencies = (
 				6394EAD12B337B3C001B4EC3 /* Midjourney */,
 				6394EAD42B337B4D001B4EC3 /* Kingfisher */,
+				633972682B4B569A00633C06 /* SmoothGradient */,
 			);
 			productName = "midjourney-ios";
 			productReference = 6394EABF2B337A04001B4EC3 /* midjourney-ios.app */;
@@ -255,6 +258,7 @@
 			packageReferences = (
 				6394EAD02B337B3C001B4EC3 /* XCRemoteSwiftPackageReference "midjourney-swift" */,
 				6394EAD32B337B4D001B4EC3 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				633972672B4B569A00633C06 /* XCRemoteSwiftPackageReference "SmoothGradient" */,
 			);
 			productRefGroup = 6394EAC02B337A04001B4EC3 /* Products */;
 			projectDirPath = "";
@@ -530,6 +534,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		633972672B4B569A00633C06 /* XCRemoteSwiftPackageReference "SmoothGradient" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/raymondjavaxx/SmoothGradient";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		6394EAD02B337B3C001B4EC3 /* XCRemoteSwiftPackageReference "midjourney-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/danielamitay/midjourney-swift";
@@ -549,6 +561,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		633972682B4B569A00633C06 /* SmoothGradient */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 633972672B4B569A00633C06 /* XCRemoteSwiftPackageReference "SmoothGradient" */;
+			productName = SmoothGradient;
+		};
 		6394EAD12B337B3C001B4EC3 /* Midjourney */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 6394EAD02B337B3C001B4EC3 /* XCRemoteSwiftPackageReference "midjourney-swift" */;

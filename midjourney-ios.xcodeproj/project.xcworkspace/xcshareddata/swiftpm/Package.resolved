@@ -26,6 +26,15 @@
         "branch" : "main",
         "revision" : "38a51d4030acbf69b9e275055a9f17a1a263b68b"
       }
+    },
+    {
+      "identity" : "smoothgradient",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/raymondjavaxx/SmoothGradient",
+      "state" : {
+        "revision" : "61bf248fad31c7921c9985b418e6e9297cd7b861",
+        "version" : "1.0.0"
+      }
     }
   ],
   "version" : 2
