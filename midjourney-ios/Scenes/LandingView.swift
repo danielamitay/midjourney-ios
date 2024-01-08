@@ -28,17 +28,9 @@ struct LandingView: View {
 
             Spacer()
 
-            authBar
-                .frame(height: 62)
-                .background {
-                    RoundedRectangle(cornerRadius: 10)
-                        .fill(.menu)
-                        .stroke(.white.opacity(0.25), lineWidth: 1)
-                        .compositingGroup()
-                        .shadow(radius: 6, y: 3)
-                }
-                .padding(.horizontal, 12)
-                .font(Font.DMSans.semiBold(size: 15))
+            discordButton
+
+            cookieButton
         }
         .padding(.horizontal, 12)
         .frame(maxWidth: .infinity)
@@ -63,9 +55,17 @@ struct LandingView: View {
                     }
                 }
                 .ignoresSafeArea(edges: .bottom)
-                .navigationTitle("Discord Auth")
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
+                    ToolbarItem(placement: .principal) {
+                            VStack {
+                                Text("Log In with Discord")
+                                    .font(.headline)
+                                Text("The app will never get access to your credentials")
+                                    .font(.system(size: 10))
+                                    .foregroundStyle(.secondary)
+                            }
+                        }
                     ToolbarItem(placement: .navigationBarLeading) {
                         Button("Cancel") {
                             discordAuthSheet.toggle()
@@ -81,7 +81,7 @@ struct LandingView: View {
                     cookieAuthSheet.toggle()
                     controller.setCookie(cookie)
                 }
-                .navigationTitle("Cookie Auth")
+                .navigationTitle("Cookie Authentication")
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
                     ToolbarItem(placement: .navigationBarLeading) {
@@ -95,41 +95,54 @@ struct LandingView: View {
         })
     }
 
-    var authBar: some View {
-        HStack {
+    var discordButton: some View {
+        Button(action: {
+            discordAuthSheet.toggle()
+        }, label: {
             RoundedRectangle(cornerRadius: 8)
                 .fill(.discord)
                 .stroke(.white.opacity(0.2), lineWidth: 1)
-                .onTapGesture {
-                    discordAuthSheet.toggle()
-                }
                 .overlay {
-                    HStack(spacing: 5) {
+                    HStack(spacing: 10) {
                         Image(.discordIcon)
                             .resizable()
                             .aspectRatio(contentMode: .fit)
-                            .frame(width: 16)
-                        Text("Discord Auth")
+                            .frame(width: 18)
+                        Text("Log In with Discord")
                     }
                     .foregroundStyle(.white)
                 }
+                .frame(height: 62)
+                .font(Font.DMSans.semiBold(size: 18))
+                .compositingGroup()
+                .shadow(radius: 6, y: 3)
+                .padding(.horizontal, 12)
+        })
+    }
+
+    var cookieButton: some View {
+        Button(action: {
+            cookieAuthSheet.toggle()
+        }, label: {
             RoundedRectangle(cornerRadius: 8)
-                .fill(Color.menu)
-                .onTapGesture {
-                    cookieAuthSheet.toggle()
-                }
+                .fill(.menu)
+                .stroke(.white.opacity(0.2), lineWidth: 1)
                 .overlay {
-                    HStack(spacing: 5) {
+                    HStack(spacing: 8) {
                         Image(.cookieIcon)
                             .resizable()
                             .aspectRatio(contentMode: .fit)
-                            .frame(width: 16)
-                        Text("Cookie Auth")
+                            .frame(width: 18)
+                        Text("Use cookie authentication\nfrom desktop browser")
                     }
                     .foregroundStyle(Color.deselectedText)
                 }
-        }
-        .padding(8)
+                .frame(height: 62)
+                .font(Font.DMSans.semiBold(size: 13))
+                .compositingGroup()
+                .shadow(radius: 6, y: 3)
+                .padding(.horizontal, 12)
+        })
     }
 }
 
