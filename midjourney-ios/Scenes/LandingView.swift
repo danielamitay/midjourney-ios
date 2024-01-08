@@ -9,6 +9,7 @@ import SwiftUI
 
 struct LandingView: View {
     @EnvironmentObject private var controller: SystemController
+    @Environment(\.colorScheme) var colorScheme
 
     @State private var cookieAuthSheet = false
     @State private var discordAuthSheet = false
@@ -24,13 +25,31 @@ struct LandingView: View {
                 .padding(.top, 20)
             Text("Midjourney")
                 .font(Font.DMSans.medium(size: 28))
+            let mobileText = "mobile"
+            Text(mobileText)
+                .overlay {
+                    Text(mobileText)
+                        .offset(x: 0.5)
+                }.overlay {
+                    Text(mobileText)
+                        .offset(x: -0.5)
+                }
+                .foregroundStyle(.selectedText)
+                .font(Font.FGNoel.regular(size: 22))
                 .padding(.bottom, 44)
+                .offset(x: 72, y: -2)
+                .rotationEffect(.degrees(-10))
 
             Spacer()
 
-            discordButton
+            VStack {
+                discordButton
 
-            cookieButton
+                cookieButton
+            }
+            .compositingGroup()
+            .shadow(radius: 6, y: 3)
+            .padding(.horizontal, 12)
         }
         .padding(.horizontal, 12)
         .frame(maxWidth: .infinity)
@@ -38,7 +57,7 @@ struct LandingView: View {
             ZStack {
                 LandingBackground()
                 Color.background
-                    .opacity(0.9)
+                    .opacity(colorScheme == .dark ? 0.8 : 0.95)
                     .ignoresSafeArea()
             }
         }
@@ -101,7 +120,7 @@ struct LandingView: View {
         }, label: {
             RoundedRectangle(cornerRadius: 8)
                 .fill(.discord)
-                .stroke(.white.opacity(0.2), lineWidth: 1)
+                .stroke(.white.opacity(0.1), lineWidth: 1)
                 .overlay {
                     HStack(spacing: 10) {
                         Image(.discordIcon)
@@ -114,9 +133,6 @@ struct LandingView: View {
                 }
                 .frame(height: 62)
                 .font(Font.DMSans.semiBold(size: 18))
-                .compositingGroup()
-                .shadow(radius: 6, y: 3)
-                .padding(.horizontal, 12)
         })
     }
 
@@ -126,7 +142,7 @@ struct LandingView: View {
         }, label: {
             RoundedRectangle(cornerRadius: 8)
                 .fill(.menu)
-                .stroke(.white.opacity(0.2), lineWidth: 1)
+                .stroke(.white.opacity(0.1), lineWidth: 1)
                 .overlay {
                     HStack(spacing: 8) {
                         Image(.cookieIcon)
@@ -139,9 +155,6 @@ struct LandingView: View {
                 }
                 .frame(height: 62)
                 .font(Font.DMSans.semiBold(size: 13))
-                .compositingGroup()
-                .shadow(radius: 6, y: 3)
-                .padding(.horizontal, 12)
         })
     }
 }

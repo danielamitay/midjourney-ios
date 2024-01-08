@@ -40,4 +40,12 @@ extension Font {
             return .custom("DMSans-Italic", size: size)
         }
     }
+
+    struct FGNoel {
+        private init() {}
+
+        static func regular(size: CGFloat) -> Font {
+            return .custom("FGNoelW00-Regular", size: size)
+        }
+    }
 }
