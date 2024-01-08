@@ -26,6 +26,7 @@ struct RecentJobsView: View {
         ScrollView {
             GridSectionHeader(title: "Explore")
                 .padding(gridPadding)
+                .padding(.horizontal, gridPadding)
                 .padding(.bottom, -gridPadding * 2)
             VStack {
                 if recentJobColumns.isEmpty {
@@ -75,6 +76,7 @@ struct RecentJobsView: View {
             )
             .contentShape(Rectangle())
             .padding(gridPadding)
+            .padding(.horizontal, gridPadding)
         }
         .sheet(item: $selectedEntry) { entry in
             GridEntrySheet(gridEntry: entry, placeholderSize: .large)

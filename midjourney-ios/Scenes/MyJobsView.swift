@@ -70,6 +70,7 @@ struct MyJobsView: View {
                 }
             }
             .padding(gridPadding)
+            .padding(.horizontal, gridPadding)
         }
         .refreshable {
             // No error handling :'(
