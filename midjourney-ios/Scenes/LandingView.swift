@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UIKit
 
 struct LandingView: View {
     @EnvironmentObject private var controller: SystemController
@@ -24,16 +25,9 @@ struct LandingView: View {
                 .padding(.bottom, -20)
                 .padding(.top, 20)
             Text("Midjourney")
-                .font(Font.DMSans.medium(size: 28))
-            let mobileText = "mobile"
-            Text(mobileText)
-                .overlay {
-                    Text(mobileText)
-                        .offset(x: 0.5)
-                }.overlay {
-                    Text(mobileText)
-                        .offset(x: -0.5)
-                }
+                .font(.DMSans.medium(size: 28))
+            Text("mobile")
+                .doubleUp(offset: (1.0 / UIScreen.main.scale))
                 .foregroundStyle(.selectedText)
                 .font(Font.FGNoel.regular(size: 22))
                 .padding(.bottom, 44)
@@ -42,14 +36,14 @@ struct LandingView: View {
 
             Spacer()
 
-            VStack {
+            VStack(spacing: 10) {
                 discordButton
 
                 cookieButton
             }
             .compositingGroup()
             .shadow(radius: 6, y: 3)
-            .padding(.horizontal, 12)
+            .padding(.horizontal, 36)
         }
         .padding(.horizontal, 12)
         .frame(maxWidth: .infinity)
@@ -61,7 +55,7 @@ struct LandingView: View {
                     .ignoresSafeArea()
             }
         }
-        .font(Font.DMSans.regular(size: 14))
+        .font(.DMSans.regular(size: 14))
         .sheet(isPresented: $discordAuthSheet, content: {
             NavigationStack {
                 AuthWebView { result in
@@ -118,7 +112,7 @@ struct LandingView: View {
         Button(action: {
             discordAuthSheet.toggle()
         }, label: {
-            RoundedRectangle(cornerRadius: 8)
+            RoundedRectangle(cornerRadius: 12)
                 .fill(.discord)
                 .stroke(.white.opacity(0.1), lineWidth: 1)
                 .overlay {
@@ -131,8 +125,8 @@ struct LandingView: View {
                     }
                     .foregroundStyle(.white)
                 }
-                .frame(height: 62)
-                .font(Font.DMSans.semiBold(size: 18))
+                .frame(height: 52)
+                .font(.DMSans.semiBold(size: 17))
         })
     }
 
@@ -140,7 +134,7 @@ struct LandingView: View {
         Button(action: {
             cookieAuthSheet.toggle()
         }, label: {
-            RoundedRectangle(cornerRadius: 8)
+            RoundedRectangle(cornerRadius: 12)
                 .fill(.menu)
                 .stroke(.white.opacity(0.1), lineWidth: 1)
                 .overlay {
@@ -149,12 +143,12 @@ struct LandingView: View {
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 18)
-                        Text("Use cookie authentication\nfrom desktop browser")
+                        Text("Use cookie authentication\nfrom a desktop browser")
                     }
-                    .foregroundStyle(Color.deselectedText)
+                    .foregroundStyle(Color.primary.opacity(0.75))
                 }
-                .frame(height: 62)
-                .font(Font.DMSans.semiBold(size: 13))
+                .frame(height: 52)
+                .font(.DMSans.semiBold(size: 12))
         })
     }
 }

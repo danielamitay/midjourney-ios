@@ -66,7 +66,7 @@ struct AuthWebView: UIViewRepresentable {
                     || url == "https://www.midjourney.com/explore") {
                     webView.disableAnimations()
                     autoSignInTimer?.invalidate()
-                    autoSignInTimer = .scheduledTimer(withTimeInterval: 0.05, repeats: true, block: { [weak webView] _ in
+                    autoSignInTimer = .scheduledTimer(withTimeInterval: 0.1, repeats: true, block: { [weak webView] _ in
                         webView?.selectSignInButton()
                     })
                 } else if url.starts(with: "https://www.midjourney.com/__/auth/handler?code=") {
