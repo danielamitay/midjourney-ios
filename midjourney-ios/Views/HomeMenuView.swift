@@ -48,6 +48,7 @@ struct HomeMenuView: View {
                     .frame(height: 20 + geometry.safeAreaInsets.bottom)
             }
             .ignoresSafeArea()
+            .allowsHitTesting(false)
         }
     }
 
