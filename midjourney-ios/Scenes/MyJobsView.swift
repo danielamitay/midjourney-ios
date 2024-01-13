@@ -43,20 +43,32 @@ struct MyJobsView: View {
                         RoundedRectangle(cornerRadius: 12)
                     )
                 }
-                ForEach(gridSections) { section in
+                ForEach(Array(gridSections.enumerated()), id: \.0) { index, section in
                     GridSectionHeader(title: section.title ?? "")
 
                     LazyVGrid(columns: columns, spacing: gridPadding) {
-                        ForEach(runningJobIds.reversed(), id: \.self) { jobId in
-                            ForEach(0..<4, id: \.self) { index in
-                                Color.loading
-                                    .aspectRatio(1, contentMode: .fit)
-                                    .overlay {
-                                        ProgressView()
-                                            .opacity(0.5)
-                                    }
+                        if index == 0 {
+                            ForEach(runningJobIds.reversed(), id: \.self) { jobId in
+                                let jobUpdate = jobUpdates[jobId]
+                                ForEach(0..<4, id: \.self) { index in
+                                    Color.loading
+                                        .aspectRatio(1, contentMode: .fit)
+                                        .overlay {
+                                            ZStack {
+                                                if let img = jobUpdate?.imgAtIndex(index), let image = img.uiImage {
+                                                    Image(uiImage: image)
+                                                        .resizable()
+                                                        .aspectRatio(contentMode: .fill)
+                                                }
+                                                ProgressView()
+                                                    .opacity(0.5)
+                                            }
+                                        }
+                                        .mask(Rectangle())
+                                }
                             }
                         }
+
                         ForEach(section.entries) { entry in
                             Color.loading
                                 .aspectRatio(1, contentMode: .fit)
@@ -155,16 +167,32 @@ extension MyJobsView: WebSocketDelegate {
             jobUpdates.removeValue(forKey: job.id)
             return
         }
-
-        if !runningJobIds.contains(job.id) {
-            runningJobIds.append(job.id)
-        }
-
-
         if !runningJobIds.contains(job.id) {
             runningJobIds.append(job.id)
         }
         jobUpdates[job.id] = job
+    }
+}
+
+extension WSJobUpdate {
+    func imgAtIndex(_ index: Int) -> Img? {
+        if let imgs, imgs.count > index {
+            return imgs[index]
+        }
+        return nil
+    }
+}
+
+extension WSJobUpdate.Img {
+    var uiImage: UIImage? {
+        return UIImageFromImgData(data)
+    }
+
+    private func UIImageFromImgData(_ imgData: String) -> UIImage? {
+        if let stringData = Data(base64Encoded: imgData) {
+            return UIImage(data: stringData)
+        }
+        return nil
     }
 }
 
