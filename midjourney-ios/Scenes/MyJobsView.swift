@@ -12,10 +12,13 @@ import Midjourney
 
 struct MyJobsView: View {
     let client: Midjourney
+    var webSocket: WebSocket? = nil
 
     @State var myUserId: String? = nil
     @State var gridSections: [GridSection] = []
     @State var selectedEntry: GridEntry? = nil
+    @State var runningJobIds: [String] = []
+    @State var jobUpdates: [String: WSJobUpdate] = [:]
 
     private let gridCount: Int = 4
     private let gridPadding: CGFloat = 3
@@ -44,6 +47,16 @@ struct MyJobsView: View {
                     GridSectionHeader(title: section.title ?? "")
 
                     LazyVGrid(columns: columns, spacing: gridPadding) {
+                        ForEach(runningJobIds.reversed(), id: \.self) { jobId in
+                            ForEach(0..<4, id: \.self) { index in
+                                Color.loading
+                                    .aspectRatio(1, contentMode: .fit)
+                                    .overlay {
+                                        ProgressView()
+                                            .opacity(0.5)
+                                    }
+                            }
+                        }
                         ForEach(section.entries) { entry in
                             Color.loading
                                 .aspectRatio(1, contentMode: .fit)
@@ -95,6 +108,12 @@ struct MyJobsView: View {
                 }
             }
         }
+        .onChange(of: webSocket == nil) {
+            webSocket?.delegate = self
+        }
+        .onAppear {
+            webSocket?.delegate = self
+        }
     }
 
     func fetchJobsAsync() async throws {
@@ -114,6 +133,38 @@ extension MyJobsView {
             returnValue.append(.init(.flexible(), spacing: gridPadding))
         }
         return returnValue
+    }
+}
+
+extension MyJobsView: WebSocketDelegate {
+    func jobCreated(_ job: WSJob) {
+        if !runningJobIds.contains(job.id) {
+            runningJobIds.append(job.id)
+        }
+    }
+    
+    func jobUpdate(_ job: WSJobUpdate) {
+        if job.percentage_complete == 100 {
+            if runningJobIds.contains(job.id) {
+                // Trigger a refresh
+                Task {
+                    try? await fetchJobsAsync()
+                }
+            }
+            runningJobIds.removeAll { $0 == job.id }
+            jobUpdates.removeValue(forKey: job.id)
+            return
+        }
+
+        if !runningJobIds.contains(job.id) {
+            runningJobIds.append(job.id)
+        }
+
+
+        if !runningJobIds.contains(job.id) {
+            runningJobIds.append(job.id)
+        }
+        jobUpdates[job.id] = job
     }
 }
 
