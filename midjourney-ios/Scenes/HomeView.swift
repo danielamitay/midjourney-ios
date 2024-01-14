@@ -16,6 +16,7 @@ struct HomeView: View {
     @EnvironmentObject private var controller: SystemController
 
     @State var selectedTab: HomeTab = .explore
+    @State var alphaClient: Midjourney.Alpha? = nil
     @State var webSocket: WebSocket? = nil
 
     var body: some View {
@@ -35,11 +36,12 @@ struct HomeView: View {
                 .offset(x: selectedTab == .myImages ? 0.0 : 50)
                 .animation(.easeOut(duration: 0.2), value: selectedTab == .myImages)
 
-            HomeMenuView(selectedTab: $selectedTab)
+            HomeMenuView(selectedTab: $selectedTab, alphaClient: alphaClient)
         }
         .onAppear {
             Task {
                 if let alpha = try? await client.alphaClientAsync() {
+                    alphaClient = alpha
                     webSocket = alpha.createWebSocket()
                     webSocket?.connect()
 
