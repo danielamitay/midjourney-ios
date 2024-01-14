@@ -18,6 +18,7 @@ enum HomeTab {
 struct HomeMenuView: View {
     @Binding var selectedTab: HomeTab
     var alphaClient: Midjourney.Alpha? = nil
+    var webSocket: WebSocket? = nil
 
     @EnvironmentObject private var controller: SystemController
 
@@ -73,6 +74,7 @@ struct HomeMenuView: View {
         GeometryReader { geometry in
             VStack(spacing: 0) {
                 Spacer()
+                let hasAlphaClient = alphaClient != nil
                 RoundedRectangle(cornerRadius: 12)
                     .fill(Color.menu)
                     .stroke(Color.menuBorder, lineWidth: 1)
@@ -88,19 +90,25 @@ struct HomeMenuView: View {
                                         .aspectRatio(contentMode: .fill)
                                         .frame(width: 22, height: 22)
                                 }
-                            TextField(alphaClient == nil ? "Imagine... (coming soon)" : "Imagine...", text: $imagineText)
+                            TextField(!hasAlphaClient ? "Imagine... (coming soon)" : "Imagine...", text: $imagineText)
                                 .disabled(alphaClient == nil)
                                 .focused($imagineFocused)
                                 .font(.DMSans.medium(size: 14))
+                                .submitLabel(.go)
+                                .onSubmit {
+                                    guard !imagineText.isEmpty else { return }
+                                    performImagine()
+                                }
                             Spacer()
                         }
-                        .foregroundStyle(Color.placeholder)
+                        .foregroundStyle(hasAlphaClient ? Color.standardText : Color.placeholder)
+                        .animation(.linear, value: hasAlphaClient)
                     }
                     .onTapGesture {
-                        if alphaClient == nil {
-                            imagineAlert.toggle()
-                        } else {
+                        if hasAlphaClient {
                             imagineFocused = true
+                        } else {
+                            imagineAlert.toggle()
                         }
                     }
                     .padding(12)
@@ -255,6 +263,21 @@ struct HomeMenuView: View {
             RoundedRectangle(cornerRadius: 8)
                 .fill(.loading.opacity(0.5))
                 .stroke(.loading, lineWidth: 1)
+        }
+    }
+}
+
+private extension HomeMenuView {
+    func performImagine() {
+        guard !imagineText.isEmpty else { return }
+        guard let alphaClient else { return }
+        Task {
+            let job = try await alphaClient.imagineAsync(imagineText)
+            imagineText = ""
+
+            guard let webSocket else { return }
+            try? await webSocket.subscribeToJobAsync(job.id)
+            selectedTab = .myImages
         }
     }
 }

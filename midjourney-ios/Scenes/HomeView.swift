@@ -30,13 +30,20 @@ struct HomeView: View {
                 .offset(x: selectedTab == .explore ? 0.0 : -50)
                 .animation(.easeOut(duration: 0.2), value: selectedTab == .explore)
 
-            MyJobsView(client: client, webSocket: webSocket)
-                .opacity(selectedTab == .myImages ? 1.0 : 0.0)
-                .safeAreaPadding(.bottom, 70)
-                .offset(x: selectedTab == .myImages ? 0.0 : 50)
-                .animation(.easeOut(duration: 0.2), value: selectedTab == .myImages)
+            MyJobsView(
+                client: client,
+                webSocket: webSocket
+            )
+            .opacity(selectedTab == .myImages ? 1.0 : 0.0)
+            .safeAreaPadding(.bottom, 70)
+            .offset(x: selectedTab == .myImages ? 0.0 : 50)
+            .animation(.easeOut(duration: 0.2), value: selectedTab == .myImages)
 
-            HomeMenuView(selectedTab: $selectedTab, alphaClient: alphaClient)
+            HomeMenuView(
+                selectedTab: $selectedTab,
+                alphaClient: alphaClient,
+                webSocket: webSocket
+            )
         }
         .onAppear {
             Task {
