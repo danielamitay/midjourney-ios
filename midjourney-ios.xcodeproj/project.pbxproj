@@ -41,6 +41,7 @@
 		6394EAD92B3394FB001B4EC3 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6394EAD82B3394FB001B4EC3 /* HomeView.swift */; };
 		6394EADB2B339C91001B4EC3 /* MyJobsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6394EADA2B339C91001B4EC3 /* MyJobsView.swift */; };
 		6394EADD2B33E984001B4EC3 /* RecentJobsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6394EADC2B33E984001B4EC3 /* RecentJobsView.swift */; };
+		63E8E2452B6DF92300FB530C /* WrappingHStack in Frameworks */ = {isa = PBXBuildFile; productRef = 63E8E2442B6DF92300FB530C /* WrappingHStack */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -84,6 +85,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63E8E2452B6DF92300FB530C /* WrappingHStack in Frameworks */,
 				633972692B4B569A00633C06 /* SmoothGradient in Frameworks */,
 				6394EAD52B337B4D001B4EC3 /* Kingfisher in Frameworks */,
 				6394EAD22B337B3C001B4EC3 /* Midjourney in Frameworks */,
@@ -232,6 +234,7 @@
 				6394EAD12B337B3C001B4EC3 /* Midjourney */,
 				6394EAD42B337B4D001B4EC3 /* Kingfisher */,
 				633972682B4B569A00633C06 /* SmoothGradient */,
+				63E8E2442B6DF92300FB530C /* WrappingHStack */,
 			);
 			productName = "midjourney-ios";
 			productReference = 6394EABF2B337A04001B4EC3 /* midjourney-ios.app */;
@@ -265,6 +268,7 @@
 				6394EAD02B337B3C001B4EC3 /* XCRemoteSwiftPackageReference "midjourney-swift" */,
 				6394EAD32B337B4D001B4EC3 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				633972672B4B569A00633C06 /* XCRemoteSwiftPackageReference "SmoothGradient" */,
+				63E8E2432B6DF92300FB530C /* XCRemoteSwiftPackageReference "WrappingHStack" */,
 			);
 			productRefGroup = 6394EAC02B337A04001B4EC3 /* Products */;
 			projectDirPath = "";
@@ -566,6 +570,14 @@
 				minimumVersion = 7.10.0;
 			};
 		};
+		63E8E2432B6DF92300FB530C /* XCRemoteSwiftPackageReference "WrappingHStack" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/dkk/WrappingHStack.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.2.11;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -583,6 +595,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 6394EAD32B337B4D001B4EC3 /* XCRemoteSwiftPackageReference "Kingfisher" */;
 			productName = Kingfisher;
+		};
+		63E8E2442B6DF92300FB530C /* WrappingHStack */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 63E8E2432B6DF92300FB530C /* XCRemoteSwiftPackageReference "WrappingHStack" */;
+			productName = WrappingHStack;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

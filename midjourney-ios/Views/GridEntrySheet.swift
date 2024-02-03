@@ -8,6 +8,7 @@
 import SwiftUI
 
 import Midjourney
+import WrappingHStack
 
 struct GridEntrySheet: View {
     let gridEntry: GridEntry
@@ -34,23 +35,24 @@ struct GridEntrySheet: View {
                         Spacer()
                     }
                     if parsedCommand.parameters.count > 0 {
-                        HStack {
-                            ForEach(parsedCommand.parameters) { parameter in
-                                HStack(spacing: 2) {
-                                    Text(parameter.name)
-                                        .foregroundStyle(.white.opacity(0.75))
-                                    Text(parameter.value)
-                                        .foregroundStyle(.white)
-                                }
-                                .font(Font.DMSans.medium(size: 14))
-                                .padding(.horizontal, 6)
-                                .padding(.vertical, 3)
-                                .background {
-                                    RoundedRectangle(cornerRadius: 5)
-                                        .fill(.white.opacity(0.1))
-                                }
+                        WrappingHStack(
+                            parsedCommand.parameters,
+                            spacing: .constant(6),
+                            lineSpacing: 6
+                        ) { parameter in
+                            HStack(spacing: 2) {
+                                Text(parameter.name)
+                                    .foregroundStyle(.white.opacity(0.75))
+                                Text(parameter.value)
+                                    .foregroundStyle(.white)
                             }
-                            Spacer()
+                            .font(Font.DMSans.medium(size: 14))
+                            .padding(.horizontal, 6)
+                            .padding(.vertical, 3)
+                            .background {
+                                RoundedRectangle(cornerRadius: 5)
+                                    .fill(.white.opacity(0.1))
+                            }
                         }
                     }
                 }
