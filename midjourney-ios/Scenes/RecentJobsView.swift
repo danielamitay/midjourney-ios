@@ -103,7 +103,6 @@ struct RecentJobsView: View {
             let shouldAnimate = currentPage == 0
             isFetching = false
             currentPage += 1
-            recentJobs.append(contentsOf: jobs)
             if shouldAnimate {
                 withAnimation {
                     recentJobs.append(contentsOf: jobs)

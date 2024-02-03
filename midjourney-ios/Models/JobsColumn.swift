@@ -10,7 +10,7 @@ import Foundation
 import Midjourney
 
 struct JobsColumn: Identifiable {
-    let id: String = UUID().uuidString
+    let id: String
     let jobs: [Midjourney.Job]
 }
 
@@ -25,8 +25,8 @@ extension JobsColumn {
                 heights[minHeightIndex] += (CGFloat(job.height) / CGFloat(job.width))
             }
         }
-        return distributedArrays.compactMap { jobs in
-            return JobsColumn(jobs: jobs)
+        return distributedArrays.enumerated().compactMap { (idx, jobs) in
+            return JobsColumn(id: "\(idx)", jobs: jobs)
         }
     }
 }
