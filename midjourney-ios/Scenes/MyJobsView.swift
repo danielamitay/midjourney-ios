@@ -14,6 +14,8 @@ struct MyJobsView: View {
     let client: Midjourney
     var webSocket: WebSocket? = nil
 
+    @EnvironmentObject private var controller: SystemController
+
     @State var myUserId: String? = nil
     @State var gridSections: [GridSection] = []
     @State var selectedEntry: GridEntry? = nil
@@ -130,10 +132,18 @@ struct MyJobsView: View {
 
     func fetchJobsAsync() async throws {
         guard let myUserId else { return }
-        let jobs = try await client.userJobsAsync(myUserId)
-        let gridEntries = GridEntry.entriesForJobs(jobs)
-        withAnimation {
-            gridSections = GridSection.gridEntriesSectionedByDate(gridEntries)
+        do {
+            let jobs = try await client.userJobsAsync(myUserId)
+            let gridEntries = GridEntry.entriesForJobs(jobs)
+            withAnimation {
+                gridSections = GridSection.gridEntriesSectionedByDate(gridEntries)
+            }
+        } catch {
+            if Midjourney.errorIsUnauthorized(error) {
+                // Log the user out
+                controller.clearCookie()
+            }
+            throw error
         }
     }
 }
@@ -154,7 +164,7 @@ extension MyJobsView: WebSocketDelegate {
             runningJobIds.append(job.id)
         }
     }
-    
+
     func jobUpdate(_ job: WSJobUpdate) {
         if job.percentage_complete == 100 {
             if runningJobIds.contains(job.id) {

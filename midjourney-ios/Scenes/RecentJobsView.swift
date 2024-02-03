@@ -7,11 +7,14 @@
 
 import SwiftUI
 
+import Alamofire
 import Kingfisher
 import Midjourney
 
 struct RecentJobsView: View {
     let client: Midjourney
+
+    @EnvironmentObject private var controller: SystemController
 
     @State var currentPage = 0
     @State var isFetching = false
@@ -108,7 +111,11 @@ struct RecentJobsView: View {
             } else {
                 recentJobs.append(contentsOf: jobs)
             }
-        case .failure(_):
+        case .failure(let error):
+            if Midjourney.errorIsUnauthorized(error) {
+                // Log the user out
+                controller.clearCookie()
+            }
             break
         }
     }

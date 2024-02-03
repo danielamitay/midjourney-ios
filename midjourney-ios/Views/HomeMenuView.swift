@@ -272,12 +272,19 @@ private extension HomeMenuView {
         guard !imagineText.isEmpty else { return }
         guard let alphaClient else { return }
         Task {
-            let job = try await alphaClient.imagineAsync(imagineText)
-            imagineText = ""
+            do {
+                let job = try await alphaClient.imagineAsync(imagineText)
+                imagineText = ""
 
-            guard let webSocket else { return }
-            try? await webSocket.subscribeToJobAsync(job.id)
-            selectedTab = .myImages
+                guard let webSocket else { return }
+                try await webSocket.subscribeToJobAsync(job.id)
+                selectedTab = .myImages
+            } catch {
+                if Midjourney.errorIsUnauthorized(error) {
+                    // Log the user out
+                    controller.clearCookie()
+                }
+            }
         }
     }
 }

@@ -33,6 +33,7 @@ class SystemController: ObservableObject {
         self.cookie = cookie
     }
 
+    // TODO: (Damitay) Probably worth distinguishing a 401 logout
     func clearCookie() {
         self.cookie = nil
     }

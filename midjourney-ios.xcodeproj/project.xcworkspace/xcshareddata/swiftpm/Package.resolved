@@ -14,8 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/onevcat/Kingfisher.git",
       "state" : {
-        "revision" : "add0a87ec4e31e2ca2a0b2085f0559201e4f5918",
-        "version" : "7.10.1"
+        "revision" : "3ec0ab0bca4feb56e8b33e289c9496e89059dd08",
+        "version" : "7.10.2"
       }
     },
     {
@@ -24,7 +24,7 @@
       "location" : "https://github.com/danielamitay/midjourney-swift",
       "state" : {
         "branch" : "main",
-        "revision" : "838ef725017df5f260028cdfc869ab568dd3eadb"
+        "revision" : "60996f504fc0635927e3e4113e794742a72e44c5"
       }
     },
     {
