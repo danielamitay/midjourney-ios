@@ -81,9 +81,9 @@ struct MyJobsView: View {
                                         .loadDiskFileSynchronously()
                                         .fade(duration: 0.25)
                                         .aspectRatio(contentMode: .fill)
-                                        .onTapGesture {
-                                            selectedEntry = entry
-                                        }
+                                }
+                                .onTapGesture {
+                                    selectedEntry = entry
                                 }
                         }
                         .clipShape(

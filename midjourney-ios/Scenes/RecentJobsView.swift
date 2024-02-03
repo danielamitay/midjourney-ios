@@ -50,18 +50,18 @@ struct RecentJobsView: View {
                         LazyVStack(spacing: gridPadding, content: {
                             ForEach(column.jobs) { job in
                                 let aspectRatio = (CGFloat(job.width) / CGFloat(job.height))
+                                let image = job.images.first!
                                 Color.loading
                                     .aspectRatio(aspectRatio, contentMode: .fit)
                                     .overlay {
-                                        let image = job.images.first!
                                         let imageUrl = image.webpImageUrl(size: .large)
                                         KFImage.url(URL(string: imageUrl))
                                             .resizable()
                                             .loadDiskFileSynchronously()
                                             .fade(duration: 0.25)
-                                            .onTapGesture {
-                                                selectedEntry = GridEntry(job: job, image: image)
-                                            }
+                                    }
+                                    .onTapGesture {
+                                        selectedEntry = GridEntry(job: job, image: image)
                                     }
                             }
                             Color.clear
