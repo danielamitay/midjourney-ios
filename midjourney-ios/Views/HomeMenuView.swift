@@ -115,7 +115,7 @@ struct HomeMenuView: View {
                     .alert(isPresented: $imagineAlert) {
                         Alert(
                             title: Text("/imagine unavailable"),
-                            message: Text("Imagine is currently unavailable outside of Alpha testing for users with over 10,000 image generations."),
+                            message: Text("Imagine is currently unavailable outside of Alpha testing for users with over 5,000 image generations."),
                             dismissButton: .default(Text("OK"))
                         )
                     }
